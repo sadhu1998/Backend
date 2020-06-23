@@ -1,0 +1,155 @@
+addUser(data)::=<<
+insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid , verification_status, pincode)
+values
+('$data.username$','$data.phonenumber$','$data.bloodgroup$','$data.town$','$data.district$','$data.city$','$data.state$','$data.country$',
+'$data.mailid$','FALSE', $data.pincode$);
+
+insert into users.creds(username,password,mailid) values
+('$data.username$','$data.password$','$data.mailid$');
+
+insert into users.alerts(mailid,mail_notification,sms_notification) values
+('$data.mailid$','$data.mail_notification$','$data.sms_notification$');
+>>
+
+
+getRequestedDetails(data)::=<<
+select * from users.details where
+bloodgroup = '$data.bloodgroup$' and
+country = '$data.country$' and
+town = '$data.town$' and
+district = '$data.district$' and
+city = '$data.city$' and
+state = '$data.country$'
+>>
+
+
+insert_jwt_details(data)::=<<
+insert into users.jwt_token_details values ('$data.mailid$','$data.jwtToken$',now());
+>>
+
+select_all_users_list(data)::=<<
+select * from users.creds
+>>
+
+
+getJWTToken(data)::=<<
+select * from users.jwt_token_details where mailid = '$data.mailid$'
+>>
+
+
+otp_validation(data)::=<<
+insert into users.otp_validation (mailid , otp, status, crt_ts) values ('$data.mailid$','$data.otp$','initiated',now());
+>>
+
+validate_otp(data)::=<<
+select otp from users.otp_validation where mailid = '$data.mailid$';
+>>
+
+user_exists(data)::=<<
+select * from users.details where mailid = '$data.mailid$' and verification_status = 'VALIDATED';
+>>
+
+update_otp_status(data)::=<<
+update users.otp_validation set status = 'VALIDATED' where mailid = '$data.mailid$';
+
+update users.details set verification_status = 'VALIDATED' where mailid = '$data.mailid$';
+>>
+
+deleteUser(data)::=<<
+delete from users.otp_validation where mailid = '$data.mailid$'
+delete from users.details where mailid = '$data.mailid$'
+delete from users.creds where mailid = '$data.mailid$'
+delete from users.jwt_token_details where mailid = '$data.mailid$'
+>>
+
+updateUser(data)::=<<
+update users.details set username = $data.username$,phonenumber = $data.phonenumber$,bloodgroup = $data.bloodgroup$,town = $data.town$,district = $data.district$,city= $data.city$,state= $data.state$,country = $data.country$,mailid = $data.mailid$,pincode = $data.pincode$
+>>
+
+updateUser_mail_alert(data)::=<<
+update users.alerts
+email_notification = $data.mail_notification$
+where mailid = $data.mailid$
+>>
+
+updateUser_sms_alert(data)::=<<
+update users.alerts
+sms_notification = $data.sms_notification$
+where mailid = $data.mailid$
+>>
+
+select_donor_count_pincode(data)::=<<
+select * from users.blood_groups_count where pincode = '$data.pincode$' and blood_group = '$data.bloodgroup$';
+>>
+
+
+update_donor_count_pincode(data)::=<<
+update users.blood_groups_count
+set "count" = (select "count" from users.blood_groups_count where blood_group = '$data.bloodgroup$')+1
+where blood_group = '$data.bloodgroup$' and pincode = '$data.pincode$';
+>>
+
+insert_donor_count_pincode(data)::=<<+
+insert into users.blood_groups_count (blood_group,count,pincode) values ('$data.bloodgroup$',1,'$data.pincode$');
+>>
+
+validate_pincode(data)::=<<
+select * from users.locations where pincode = '$data.pincode$';
+>>
+
+getUserDetails(data)::=<<
+select * from users.details d where mailid = '$data.mailid$'
+>>
+
+insert_into_login_sessions(data)::=<<
+delete from users.login_sessions where mailid = '$data.mailid$' or CURRENT_TIMESTAMP - start_ts > INTERVAL '30' MINUTE;
+insert into users.login_sessions (mailid,start_ts,end_ts) values ('$data.mailid$',CURRENT_TIMESTAMP,'9999-12-31 00:00:00');
+>>
+
+get_user_password(data)::=<<
+select password from users.creds where mailid = '$data.mailid$';
+>>
+
+session_exists(data)::=<<
+select * from users.login_sessions ls where CURRENT_TIMESTAMP - start_ts < INTERVAL '30' MINUTE
+>>
+
+otp_validation_success(data)::=<<
+select * from users.otp_validation ov where mailid = '$data.mailid$' and status = 'VALIDATED';
+>>
+
+add_user_review(data)::=<<
+insert into users.reviews values ('$data.mailid$','$data.stars$','$data.comment$')
+>>
+
+getCountriesList(data)::=<<
+select distinct(country) from users.locations;
+>>
+
+getTownsList(data)::=<<
+select distinct(town) from users.locations where city = '$data.entity$'
+order by town;
+>>
+
+getDistrictsList(data)::=<<
+select distinct(district) as districts from users.locations where state = '$data.entity$'
+order by district;
+>>
+
+getStatesList(data)::=<<
+select  distinct state as states from users.locations where country = '$data.entity$'
+order by state;
+>>
+
+getCitiesList(data)::=<<
+select distinct(city) from users.locations where district = '$data.entity$'
+order by city;
+>>
+
+getAllDonorCount(data)::=<<
+select count(mailid) from users.details;
+>>
+
+getBloodGroups(data)::=<<
+select blood_group from users.blood_groups;
+>>
