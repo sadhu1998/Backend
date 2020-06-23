@@ -23,6 +23,8 @@ public class UserUtility extends BaseController {
     KafkaUtility kafkaUtility = new KafkaUtility();
     SqlUtility sqlUtility = new SqlUtility();
 
+//    hello
+
     public boolean userExists(String mailid) throws Exception {
         String sql = sqlUtility.userExistsSql(mailid);
         List<Map<String, Object>> count_map = sqlManager.renderSelectQuery(sql);
