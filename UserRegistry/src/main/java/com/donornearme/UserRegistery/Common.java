@@ -8,7 +8,7 @@ public class Common {
 
 //    Swagger
     public static final String DONORNEARME_SPRING_BOOT_API = "Donornearme Spring Boot API";
-    public static final String SWAGGER_VERSION = "1.0";
+    public static final String SWAGGER_VERSION = "2.0";
     public static final String COPYRIGHT = "(C) Copyright Sadhvik Chirunomula";
     public static final String DESCRIPTION = "List of all endpoints used in API";
     public static final String PATH_MAPPING = "/";
