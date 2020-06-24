@@ -21,6 +21,8 @@ public class Common {
     public static final String STATUS = "status";
     public static final String BASIC_TEMPLATE = "basic_templates.stg";
     public static final String COUNT = "count";
+    public static final String LIST_OF_MAP = "listofmap";
+    public static final String LIST = "list";
 
 //    Kafka Common
     public static final String TOPIC_LIST="topics";

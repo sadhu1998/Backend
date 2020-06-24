@@ -23,6 +23,18 @@ public class SQLManager {
         return null;
     }
 
+    public Map<String, List<String>> renderSelectQueryReturnMapOfList(String sql) {
+        try {
+            Connection connection = dbConnectionManager.getConnection();
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            connection.close();
+            return resultSetToList(rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private List<Map<String, Object>> resultSetToListOfMap(ResultSet rs) throws SQLException {
         ResultSetMetaData md = rs.getMetaData();
         int columns = md.getColumnCount();
@@ -45,5 +57,26 @@ public class SQLManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Map<String, List<String>> resultSetToList(ResultSet rs) throws SQLException {
+        ResultSetMetaData md = rs.getMetaData();
+        int columns = md.getColumnCount();
+        Map<String, List<String>> rowlist = new HashMap<>();
+
+        while (rs.next()) {
+            for (int i = 1; i <= columns; i++) {
+                List<String> templist = new ArrayList<>();
+                if (!rowlist.containsKey(md.getColumnName(i))) {
+                    templist.add(rs.getObject(i).toString());
+                    rowlist.put(md.getColumnName(i), templist);
+                } else {
+                    templist = rowlist.get(md.getColumnName(i));
+                    templist.add(rs.getObject(i).toString());
+                    rowlist.put(md.getColumnName(i), templist);
+                }
+            }
+        }
+        return rowlist;
     }
 }

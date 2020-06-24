@@ -170,43 +170,44 @@ public class UserUtility extends BaseController {
         return pincode_map.size() > 0;
     }
 
-    public String getCountriesList() throws Exception {
-        HashMap<String, Object> list_map = new HashMap<>();
-        list_map.put("countries", "all");
-        Map<String, List<String>> pincode_map = STRenderer.renderSelectTemplateConverttoList(dbConnection.getConnection(), "getCountriesList", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, list_map);
-        return mapper.writeValueAsString(pincode_map);
+    public GetCountriesListResponse getCountriesList(GetCountriesListRequest getCountriesListRequest) throws Exception {
+        GetCountriesListResponse getCountriesListResponse = new GetCountriesListResponse();
+        String sql = sqlUtility.getCountriesList(getCountriesListRequest);
+        Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
+        getCountriesListResponse.setCountriesList(pincode_map);
+        return getCountriesListResponse;
     }
 
-    public String getStatesList(String json) throws Exception {
-        String country = (String) JSONUtils.jsonToMap(json).get("country");
-        HashMap<String, Object> list_map = new HashMap<>();
-        list_map.put("entity", country);
-        Map<String, List<String>> pincode_map = STRenderer.renderSelectTemplateConverttoList(dbConnection.getConnection(), "getStatesList", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, list_map);
-        return mapper.writeValueAsString(pincode_map);
+    public GetStatesListResponse getStatesList(GetStatesListRequest getStatesListRequest) throws Exception {
+        GetStatesListResponse getStatesListResponse = new GetStatesListResponse();
+        String sql = sqlUtility.getStatesListSql(getStatesListRequest);
+        Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
+        getStatesListResponse.setStatesList(pincode_map);
+        return getStatesListResponse;
     }
 
-    public String getDistrictsList(String json) throws Exception {
-        String state = (String) JSONUtils.jsonToMap(json).get("state");
-        HashMap<String, Object> list_map = new HashMap<>();
-        list_map.put("entity", state);
-        Map<String, List<String>> pincode_map = STRenderer.renderSelectTemplateConverttoList(dbConnection.getConnection(), "getDistrictsList", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, list_map);
-        return mapper.writeValueAsString(pincode_map);
+    public GetDistrictsListResponse getDistrictsList(GetDistrictsListRequest getDistrictsListRequest) throws Exception {
+        GetDistrictsListResponse getDistrictsListResponse = new GetDistrictsListResponse();
+        String sql = sqlUtility.getDistrictsListSql(getDistrictsListRequest);
+        Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
+        getDistrictsListResponse.setDistrictsList(pincode_map);
+        return getDistrictsListResponse;
     }
 
-    public String getTownsList(String json) throws Exception {
-        String city = (String) JSONUtils.jsonToMap(json).get("city");
-        HashMap<String, Object> list_map = new HashMap<>();
-        list_map.put("entity", city);
-        Map<String, List<String>> pincode_map = STRenderer.renderSelectTemplateConverttoList(dbConnection.getConnection(), "getTownsList", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, list_map);
-        return mapper.writeValueAsString(pincode_map);
+    public GetTownsListResponse getTownsList(GetTownsListRequest getTownsListRequest) throws Exception {
+        GetTownsListResponse getTownsListResponse = new GetTownsListResponse();
+        String sql = sqlUtility.getTownsList(getTownsListRequest);
+        Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
+        getTownsListResponse.setTownsList(pincode_map);
+        return getTownsListResponse;
     }
 
-    public String getCitiesList(String json) throws Exception {
-        String district = (String) JSONUtils.jsonToMap(json).get("district");
-        HashMap<String, Object> list_map = new HashMap<>();
-        list_map.put("entity", district);
-        Map<String, List<String>> pincode_map = STRenderer.renderSelectTemplateConverttoList(dbConnection.getConnection(), "getCitiesList", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, list_map);
-        return mapper.writeValueAsString(pincode_map);
+    public GetCitiesListResponse getCitiesList(GetCitiesListRequest getCitiesListRequest) throws Exception {
+        GetCitiesListResponse getCitiesListResponse = new GetCitiesListResponse();
+        String sql = sqlUtility.getCitiesListSql(getCitiesListRequest);
+        Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
+        getCitiesListResponse.setCitiesList(pincode_map);
+        return getCitiesListResponse;
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) throws Exception {

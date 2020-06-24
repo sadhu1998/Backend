@@ -1,9 +1,6 @@
 package com.donornearme.UserRegistery.usermethods;
 
-import com.donornearme.UserRegistery.model.request.AddUserRequest;
-import com.donornearme.UserRegistery.model.request.AuthenticationRequest;
-import com.donornearme.UserRegistery.model.request.UpdateUserRequest;
-import com.donornearme.UserRegistery.model.request.ValidateOTPRequest;
+import com.donornearme.UserRegistery.model.request.*;
 
 public class SqlUtility {
     public String userExistsSql(String mailid) {
@@ -42,5 +39,25 @@ public class SqlUtility {
                 "delete from users.details where mailid = '"+mailid+"'\n" +
                 "delete from users.creds where mailid = '"+mailid+"'\n" +
                 "delete from users.jwt_token_details where mailid = '"+mailid+"'";
+    }
+
+    public String getStatesListSql(GetStatesListRequest getStatesListRequest){
+        return "select  distinct state as states from users.locations where country = '"+getStatesListRequest.getCountry()+"' order by state;";
+    }
+
+    public String getDistrictsListSql(GetDistrictsListRequest getDistrictsListRequest) {
+        return "select distinct(district) as districts from users.locations where state = '"+getDistrictsListRequest.getState()+"' order by district;";
+    }
+
+    public String getCitiesListSql(GetCitiesListRequest getCitiesListRequest) {
+        return "select distinct city as city from users.locations where district = '"+getCitiesListRequest.getDistrict()+"' order by city;";
+    }
+
+    public String getTownsList(GetTownsListRequest getTownsListRequest) {
+        return "select distinct(town) from users.locations where city = '"+getTownsListRequest.getCity()+"' order by town;";
+    }
+
+    public String getCountriesList(GetCountriesListRequest getCountriesListRequest) {
+        return "select distinct(country) from users.locations order by country";
     }
 }

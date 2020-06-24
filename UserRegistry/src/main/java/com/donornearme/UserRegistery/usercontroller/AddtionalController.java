@@ -23,9 +23,10 @@ public class AddtionalController extends BaseController {
         return userUtility.authenticate(authenticationRequest);
     }
 
-    @GetMapping("/")
-    public String welcome(WelcomeRequest welcomeRequest) {
+    @RequestMapping(method = RequestMethod.GET, value = "/")
+    public WelcomeResponse welcome(WelcomeRequest welcomeRequest) {
         WelcomeResponse welcomeResponse = new WelcomeResponse();
-        return "Hello World";
+        welcomeResponse.setStatus("Entered");
+        return welcomeResponse;
     }
 }

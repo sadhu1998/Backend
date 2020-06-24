@@ -123,17 +123,15 @@ insert into users.reviews values ('$data.mailid$','$data.stars$','$data.comment$
 >>
 
 getCountriesList(data)::=<<
-select distinct(country) from users.locations;
+select distinct(country) from users.locations order by country;
 >>
 
 getTownsList(data)::=<<
-select distinct(town) from users.locations where city = '$data.entity$'
-order by town;
+select distinct(town) from users.locations where city = '$data.entity$' order by town;
 >>
 
 getDistrictsList(data)::=<<
-select distinct(district) as districts from users.locations where state = '$data.entity$'
-order by district;
+select distinct(district) as districts from users.locations where state = '$data.entity$' order by district;
 >>
 
 getStatesList(data)::=<<

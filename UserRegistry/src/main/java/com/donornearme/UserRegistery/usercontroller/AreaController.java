@@ -1,46 +1,49 @@
 package com.donornearme.UserRegistery.usercontroller;
 
+import com.donornearme.UserRegistery.model.request.*;
+import com.donornearme.UserRegistery.model.response.*;
 import com.donornearme.UserRegistery.usermethods.UserUtility;
 import io.swagger.annotations.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@Api(value = "location", description = "Get Details of Address")
+@Api(value = "location", description = "Get Details of Locations")
 public class AreaController extends BaseController {
     private static final Logger logger = LogManager.getLogger(AreaController.class);
     private UserUtility userUtility = new UserUtility();
 
 
-    @ApiOperation(value = "Get Lists")
-    @RequestMapping(method = RequestMethod.GET, value = "/getcountrieslist")
-    public String getListOfCountries() throws Exception {
-        return userUtility.getCountriesList();
+    @ApiOperation(value = "Get Countries List")
+    @RequestMapping(method = RequestMethod.GET, value = "/getlist/countries")
+    public GetCountriesListResponse getListOfCountries(GetCountriesListRequest getCountriesListRequest) throws Exception {
+        return userUtility.getCountriesList(getCountriesListRequest);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/getstateslist")
-    public String getListOfStates(@RequestBody String json) throws Exception {
-        return userUtility.getStatesList(json);
+    @ApiOperation(value = "Get States List")
+    @RequestMapping(method = RequestMethod.GET, value = "/getlist/states")
+    public GetStatesListResponse getListOfStates(GetStatesListRequest getStatesListRequest) throws Exception {
+        return userUtility.getStatesList(getStatesListRequest);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/getcitieslist")
-    public String getGetListOfCities(@RequestBody String json) throws Exception {
-        return userUtility.getCitiesList(json);
+    @ApiOperation(value = "Get Districts List")
+    @RequestMapping(method = RequestMethod.GET, value = "/getlist/districts")
+    public GetDistrictsListResponse getListOfDistricts(GetDistrictsListRequest getDistrictsListRequest) throws Exception {
+        return userUtility.getDistrictsList(getDistrictsListRequest);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/getdistrictslist")
-    public String getGetListOfDistricts(@RequestBody String json) throws Exception {
-        return userUtility.getDistrictsList(json);
+    @ApiOperation(value = "Get Cities List")
+    @RequestMapping(method = RequestMethod.GET, value = "/getlist/cities")
+    public GetCitiesListResponse getListOfCities(GetCitiesListRequest getCitiesListRequest) throws Exception {
+        return userUtility.getCitiesList(getCitiesListRequest);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/gettownslist")
-    public String getGetListOfTowns(@RequestBody String json) throws Exception {
-        return userUtility.getTownsList(json);
+    @ApiOperation(value = "Get Towns List")
+    @RequestMapping(method = RequestMethod.GET, value = "/getlist/towns")
+    public GetTownsListResponse getListOfTowns(GetTownsListRequest getTownsListRequest) throws Exception {
+        return userUtility.getTownsList(getTownsListRequest);
     }
 }
