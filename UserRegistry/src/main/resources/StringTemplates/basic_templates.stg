@@ -13,13 +13,7 @@ insert into users.alerts(mailid,mail_notification,sms_notification) values
 
 
 getRequestedDetails(data)::=<<
-select * from users.details where
-bloodgroup = '$data.bloodgroup$' and
-country = '$data.country$' and
-town = '$data.town$' and
-district = '$data.district$' and
-city = '$data.city$' and
-state = '$data.country$'
+select * from users.details where bloodgroup = '$data.bloodgroup$' and country = '$data.country$' and town = '$data.town$' and district = '$data.district$' and city = '$data.city$' and state = '$data.country$'
 >>
 
 
@@ -149,5 +143,5 @@ select count(mailid) from users.details;
 >>
 
 getBloodGroups(data)::=<<
-select blood_group from users.blood_groups;
+select blood_group from users.blood_groups order by blood_group;
 >>

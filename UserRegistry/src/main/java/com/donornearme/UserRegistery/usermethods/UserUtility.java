@@ -23,8 +23,6 @@ public class UserUtility extends BaseController {
     KafkaUtility kafkaUtility = new KafkaUtility();
     SqlUtility sqlUtility = new SqlUtility();
 
-//    hello
-
     public boolean userExists(String mailid) throws Exception {
         String sql = sqlUtility.userExistsSql(mailid);
         List<Map<String, Object>> count_map = sqlManager.renderSelectQuery(sql);
@@ -133,25 +131,13 @@ public class UserUtility extends BaseController {
         return mapper.writeValueAsString(status_map);
     }
 
-    public String getDataRequested(String country, String state, String district, String city, String town, String bloodgroup) throws Exception {
+    public GetDonorsAvailableResponse getDataRequested(GetDonorsAvailableRequest getDonorsAvailableRequest) throws Exception {
+        GetDonorsAvailableResponse getDonorsAvailableResponse = new GetDonorsAvailableResponse();
         logger.info("Fetching Requested Details..");
-        HashMap<String, Object> request_data_map = new HashMap<>();
-        request_data_map.put("country", country);
-        request_data_map.put("state", state);
-        request_data_map.put("district", district);
-        request_data_map.put("city", city);
-        request_data_map.put("town", town);
-        request_data_map.put("bloodgroup", bloodgroup);
-        try {
-            List<Map<String, Object>> requests_map = STRenderer.renderSelectTemplate
-                    (dbConnection.getConnection(), "getRequestedDetails", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, request_data_map);
-
-            return mapper.writeValueAsString(requests_map);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        throw new Exception("Failed to get Details");
+        String sql = sqlUtility.getAvailableDonorsList(getDonorsAvailableRequest);
+        List<Map<String, Object>> requests_map = sqlManager.renderSelectQuery(sql);
+        getDonorsAvailableResponse.setDonorsList(requests_map);
+        return getDonorsAvailableResponse;
     }
 
     public UpdateUserResponse updataUser(String mailid, UpdateUserRequest updateUserRequest) throws Exception {
@@ -257,22 +243,20 @@ public class UserUtility extends BaseController {
     }
 
 
-    public String getUserDetails(String mailid) throws Exception {
-        HashMap<String, Object> detail_map = new HashMap<>();
-        detail_map.put("mailid", mailid);
-        List<Map<String, Object>> user_detail_map = STRenderer.renderSelectTemplate
-                (dbConnection.getConnection(), "getUserDetails", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, detail_map);
-        return mapper.writeValueAsString(user_detail_map.get(0));
+    public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest getUserDetailsRequest) throws Exception {
+        GetUserDetailsResponse getUserDetailsResponse = new GetUserDetailsResponse();
+        String sql = sqlUtility.getUserDetails(getUserDetailsRequest);
+        List<Map<String, Object>> userDetails = sqlManager.renderSelectQuery(sql);
+        getUserDetailsResponse.setUserDetails(userDetails);
+        return getUserDetailsResponse;
     }
 
     public AddUserReviewResponse addUserReview(AddUserReviewRequest addUserReviewRequest) throws Exception {
         AddUserReviewResponse addUserReviewResponse = new AddUserReviewResponse();
         addUserReviewResponse.setMailid(addUserReviewRequest.getMailid());
         HashMap<String, Object> status_map = new HashMap<>();
-//        HashMap<String, Object> review_map = JSONUtils.jsonToMap(json);
-        String sql = "insert into users.reviews values ('" + addUserReviewRequest.getMailid() + "','" + addUserReviewRequest.getStars() + "','" + addUserReviewRequest.getComment() + "')";
+        String sql = sqlUtility.addReviewSql(addUserReviewRequest);
         sqlManager.renderInsertQuery(sql);
-
         int stars_given = addUserReviewRequest.getStars();
         if (stars_given >= 3) {
             addUserReviewResponse.setStatus(Common.ABOVE_THREE);
@@ -292,10 +276,12 @@ public class UserUtility extends BaseController {
         return mapper.writeValueAsString(map);
     }
 
-    public String getAllBloodGroupsList() throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
-        Map<String, List<String>> groups_map = STRenderer.renderSelectTemplateConverttoList(dbConnection.getConnection(), "getBloodGroups", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, map);
-        return mapper.writeValueAsString(groups_map);
+    public GetBloodGroupsResponse getAllBloodGroupsList(GetBloodGroupsRequest getBloodGroupsRequest) throws Exception {
+        GetBloodGroupsResponse getBloodGroupsResponse = new GetBloodGroupsResponse();
+        String sql = sqlUtility.getBloodGroupsListSql(getBloodGroupsRequest);
+        Map<String, List<String>> groups_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
+        getBloodGroupsResponse.setBloodGroupsList(groups_map);
+        return getBloodGroupsResponse;
     }
 
     public String sendMessageToBot(String json) throws JSONException, JsonProcessingException {

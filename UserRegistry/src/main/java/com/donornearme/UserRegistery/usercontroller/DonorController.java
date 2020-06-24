@@ -1,12 +1,7 @@
 package com.donornearme.UserRegistery.usercontroller;
 
-import com.donornearme.UserRegistery.model.request.AddUserReviewRequest;
-import com.donornearme.UserRegistery.model.request.SendMailToDonorRequest;
-import com.donornearme.UserRegistery.model.request.SendOTPToMailRequest;
-import com.donornearme.UserRegistery.model.response.AddUserResponse;
-import com.donornearme.UserRegistery.model.response.AddUserReviewResponse;
-import com.donornearme.UserRegistery.model.response.SendMailToDonorResponse;
-import com.donornearme.UserRegistery.model.response.SendOTPToMailResponse;
+import com.donornearme.UserRegistery.model.request.*;
+import com.donornearme.UserRegistery.model.response.*;
 import com.donornearme.UserRegistery.usermethods.MailUtility;
 import com.donornearme.UserRegistery.usermethods.UserUtility;
 import io.swagger.annotations.Api;
@@ -31,14 +26,14 @@ public class DonorController extends BaseController {
         return mailUtility.sendMailToDonor(sendMailToDonorRequest);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getdetails/{country}/{state}/{district}/{city}/{town}/{bloodgroup}")
-    public String getDonors(@PathVariable String country, @PathVariable String state, @PathVariable String district, @PathVariable String city, @PathVariable String town, @PathVariable String bloodgroup) throws Exception {
-        return userUtility.getDataRequested(country, state, district, city, town, bloodgroup);
+    @RequestMapping(method = RequestMethod.GET, value = "getdonors/available")
+    public GetDonorsAvailableResponse getDonorsAvailabe(GetDonorsAvailableRequest getDonorsAvailableRequest) throws Exception {
+        return userUtility.getDataRequested(getDonorsAvailableRequest);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getuserdetails/{mailid}")
-    public String getUserDetails(@PathVariable String mailid) throws Exception {
-        return userUtility.getUserDetails(mailid);
+    @RequestMapping(method = RequestMethod.GET, value = "getdetails/user")
+    public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest getUserDetailsRequest) throws Exception {
+        return userUtility.getUserDetails(getUserDetailsRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getdonorcount")
@@ -46,9 +41,9 @@ public class DonorController extends BaseController {
         return userUtility.getAllDonorsCount();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getbloodgroupslist")
-    public String getBloodGroupsList() throws Exception {
-        return userUtility.getAllBloodGroupsList();
+    @RequestMapping(method = RequestMethod.GET, value = "/getlist/bloodgroups")
+    public GetBloodGroupsResponse getBloodGroupsList(GetBloodGroupsRequest getBloodGroupsRequest) throws Exception {
+        return userUtility.getAllBloodGroupsList(getBloodGroupsRequest);
     }
 
 }

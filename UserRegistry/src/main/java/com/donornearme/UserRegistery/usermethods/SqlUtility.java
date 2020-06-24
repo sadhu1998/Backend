@@ -60,4 +60,20 @@ public class SqlUtility {
     public String getCountriesList(GetCountriesListRequest getCountriesListRequest) {
         return "select distinct(country) from users.locations order by country";
     }
+
+    public String getAvailableDonorsList(GetDonorsAvailableRequest getDonorsAvailableRequest) {
+        return "select * from users.details where bloodgroup = '"+getDonorsAvailableRequest.getBloodgroup()+"' and country = '"+getDonorsAvailableRequest.getCountry()+"' and town = '"+getDonorsAvailableRequest.getTown()+"' and district = '"+getDonorsAvailableRequest.getDistrict()+"' and city = '"+getDonorsAvailableRequest.getCity()+"' and state = '"+getDonorsAvailableRequest.getState()+"'";
+    }
+
+    public String getUserDetails(GetUserDetailsRequest getUserDetailsRequest) {
+        return "select * from users.details d where mailid = '"+getUserDetailsRequest.getMailid()+"'";
+    }
+
+    public String getBloodGroupsListSql(GetBloodGroupsRequest getBloodGroupsRequest) {
+        return "select blood_group from users.blood_groups order by blood_group;" ;
+    }
+
+    public String addReviewSql(AddUserReviewRequest addUserReviewRequest) {
+    return "insert into users.reviews values ('" + addUserReviewRequest.getMailid() + "','" + addUserReviewRequest.getStars() + "','" + addUserReviewRequest.getComment() + "')";
+    }
 }
