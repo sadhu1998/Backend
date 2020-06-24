@@ -120,20 +120,21 @@ public class UserUtility extends BaseController {
         return validateOTPResponse;
     }
 
-    public String deleteUser(String mailid) throws Exception {
+    public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws Exception {
+        DeleteUserResponse deleteUserResponse = new DeleteUserResponse();
+        deleteUserResponse.setMailid(deleteUserRequest.getMailid());
         logger.info(Common.DELETING_USER);
         HashMap<String, Object> status_map = new HashMap<>();
-        HashMap<String, Object> delete_map = new HashMap<>();
-        delete_map.put("mailid", mailid);
-        String sql = sqlUtility.deleteUserSql(mailid);
+        String sql = sqlUtility.deleteUserSql(deleteUserRequest.getMailid());
         sqlManager.renderInsertQuery(sql);
         status_map.put("stats", Common.DELETED_USER_SUCCESS_MSG);
-        return mapper.writeValueAsString(status_map);
+        deleteUserResponse.setStatus(Common.DELETED_USER_SUCCESS_MSG);
+        return deleteUserResponse;
     }
 
     public GetDonorsAvailableResponse getDataRequested(GetDonorsAvailableRequest getDonorsAvailableRequest) throws Exception {
         GetDonorsAvailableResponse getDonorsAvailableResponse = new GetDonorsAvailableResponse();
-        logger.info("Fetching Requested Details..");
+        logger.info(Common.FETCHING_REQUESTED_DETAILS);
         String sql = sqlUtility.getAvailableDonorsList(getDonorsAvailableRequest);
         List<Map<String, Object>> requests_map = sqlManager.renderSelectQuery(sql);
         getDonorsAvailableResponse.setDonorsList(requests_map);

@@ -26,7 +26,7 @@ public class DonorController extends BaseController {
         return mailUtility.sendMailToDonor(sendMailToDonorRequest);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getdonors/available")
+    @RequestMapping(method = RequestMethod.GET, value = "/getdonors/available")
     public GetDonorsAvailableResponse getDonorsAvailabe(GetDonorsAvailableRequest getDonorsAvailableRequest) throws Exception {
         return userUtility.getDataRequested(getDonorsAvailableRequest);
     }

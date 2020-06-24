@@ -58,7 +58,7 @@ public class Common {
     public static final String OTP_VERIFIED_SUCCESFULLY = "OTP verified succesfully";
     public static final String WRONG_OTP_ENTERED_MSG = "Wrong OTP entered.. Please retry";
     public static final String DELETED_USER_SUCCESS_MSG = "Deleted User succesfully";
-
+    public static final String FETCHING_REQUESTED_DETAILS = "Fetching Requested Details..";
 //    Reviews
     public static final String ABOVE_THREE = "Thankyou. Always happy to help you!!";
     public static final String BELOW_THREE = "Sorry, we could not help you. Please do provide suggestions to improve!!";

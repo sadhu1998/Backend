@@ -39,13 +39,13 @@ public class UserController extends BaseController {
     }
 
     @PutMapping("/updateUser/{mailid}")
-    public UpdateUserResponse updateUser(@RequestHeader("mailid") String mail, @PathVariable String mailid, @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
+    public UpdateUserResponse updateUser(@PathVariable String mailid, @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
         return userUtility.updataUser(mailid, updateUserRequest);
     }
 
     @DeleteMapping("/deleteUser/{mailid}")
-    public String deleteUser(@RequestHeader("mailid") String mail, @PathVariable String mailid) throws Exception {
-        return userUtility.deleteUser(mail);
+    public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws Exception {
+        return userUtility.deleteUser(deleteUserRequest);
     }
 
 
