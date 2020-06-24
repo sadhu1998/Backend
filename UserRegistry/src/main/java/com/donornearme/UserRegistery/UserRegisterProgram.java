@@ -1,14 +1,8 @@
 package com.donornearme.UserRegistery;
 
 import io.swagger.annotations.Api;
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -32,6 +26,7 @@ public class UserRegisterProgram {
                 .paths(PathSelectors.any()).build().pathMapping(Common.PATH_MAPPING)
                 .apiInfo(apiInfo()).useDefaultResponseMessages(false);
     }
+
     @Bean
     ApiInfo apiInfo() {
         final ApiInfoBuilder builder = new ApiInfoBuilder();

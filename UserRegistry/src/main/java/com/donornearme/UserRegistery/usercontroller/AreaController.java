@@ -3,18 +3,19 @@ package com.donornearme.UserRegistery.usercontroller;
 import com.donornearme.UserRegistery.model.request.*;
 import com.donornearme.UserRegistery.model.response.*;
 import com.donornearme.UserRegistery.usermethods.UserUtility;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(value = "location", description = "Get Details of Locations")
 public class AreaController extends BaseController {
     private static final Logger logger = LogManager.getLogger(AreaController.class);
-    private UserUtility userUtility = new UserUtility();
+    private final UserUtility userUtility = new UserUtility();
 
 
     @ApiOperation(value = "Get Countries List")

@@ -1,7 +1,5 @@
 package com.donornearme.UserRegistery.model.request;
 
-import org.springframework.web.bind.annotation.PathVariable;
-
 public class GetDonorsAvailableRequest {
     String country;
     String state;

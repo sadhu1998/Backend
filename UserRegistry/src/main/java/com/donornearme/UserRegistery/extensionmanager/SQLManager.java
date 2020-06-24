@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class SQLManager {
     DBConnectionManager dbConnectionManager = new DBConnectionManager();
+
     public List<Map<String, Object>> renderSelectQuery(String sql) {
         try {
             Connection connection = dbConnectionManager.getConnection();

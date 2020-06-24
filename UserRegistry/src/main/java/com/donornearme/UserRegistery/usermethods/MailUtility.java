@@ -13,12 +13,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.modak.utils.JSONUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +70,7 @@ public class MailUtility extends BaseController {
             logger.error("Failed to send OTP");
             sendOTPToMailResponse.setStatus("Mail has been sent to " + mailid + " succesfully.");
         }
-        
+
         return sendOTPToMailResponse;
     }
 
@@ -104,7 +102,7 @@ public class MailUtility extends BaseController {
         mail_to_donor_map.put("password", password);
         mail_to_donor_map.put("subject", "Donor Near Me - Require Blood");
         mail_to_donor_map.put("alias", "sadhu1998@gmail.com");
-        mail_to_donor_map.put("to",sendMailToDonorRequest.getMailid());
+        mail_to_donor_map.put("to", sendMailToDonorRequest.getMailid());
 
         if (mail_to_donor_map.get("message").equals("") || !mail_to_donor_map.containsKey("message")) {
             mail_to_donor_map.put("message", "We are in require of Blood. Please contact the number or mailid!");

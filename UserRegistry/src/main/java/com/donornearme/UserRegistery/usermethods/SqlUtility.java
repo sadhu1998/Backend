@@ -26,35 +26,35 @@ public class SqlUtility {
 
     }
 
-    public String updateUserSql(UpdateUserRequest updateUserRequest){
-        return "update users.details set username = "+updateUserRequest.getUsername()+",phonenumber = "+updateUserRequest.getPhonenumber()+",bloodgroup = "+updateUserRequest.getBloodgroup()+",town = "+updateUserRequest.getTown()+",district = "+updateUserRequest.getDistrict()+",city= "+updateUserRequest.getCity()+",state= "+updateUserRequest.getState()+",country = "+updateUserRequest.getCountry()+",mailid = "+updateUserRequest.getMailid()+",pincode = "+updateUserRequest.getPincode()+"";
+    public String updateUserSql(UpdateUserRequest updateUserRequest) {
+        return "update users.details set username = " + updateUserRequest.getUsername() + ",phonenumber = " + updateUserRequest.getPhonenumber() + ",bloodgroup = " + updateUserRequest.getBloodgroup() + ",town = " + updateUserRequest.getTown() + ",district = " + updateUserRequest.getDistrict() + ",city= " + updateUserRequest.getCity() + ",state= " + updateUserRequest.getState() + ",country = " + updateUserRequest.getCountry() + ",mailid = " + updateUserRequest.getMailid() + ",pincode = " + updateUserRequest.getPincode() + "";
     }
 
-    public String getAllDonorsCount(){
+    public String getAllDonorsCount() {
         return "select count(mailid) from users.details;";
     }
 
-    public String deleteUserSql(String mailid){
-        return "delete from users.otp_validation where mailid = '"+mailid+" " +
-                "delete from users.details where mailid = '"+mailid+"'\n" +
-                "delete from users.creds where mailid = '"+mailid+"'\n" +
-                "delete from users.jwt_token_details where mailid = '"+mailid+"'";
+    public String deleteUserSql(String mailid) {
+        return "delete from users.otp_validation where mailid = '" + mailid + " " +
+                "delete from users.details where mailid = '" + mailid + "'\n" +
+                "delete from users.creds where mailid = '" + mailid + "'\n" +
+                "delete from users.jwt_token_details where mailid = '" + mailid + "'";
     }
 
-    public String getStatesListSql(GetStatesListRequest getStatesListRequest){
-        return "select  distinct state as states from users.locations where country = '"+getStatesListRequest.getCountry()+"' order by state;";
+    public String getStatesListSql(GetStatesListRequest getStatesListRequest) {
+        return "select  distinct state as states from users.locations where country = '" + getStatesListRequest.getCountry() + "' order by state;";
     }
 
     public String getDistrictsListSql(GetDistrictsListRequest getDistrictsListRequest) {
-        return "select distinct(district) as districts from users.locations where state = '"+getDistrictsListRequest.getState()+"' order by district;";
+        return "select distinct(district) as districts from users.locations where state = '" + getDistrictsListRequest.getState() + "' order by district;";
     }
 
     public String getCitiesListSql(GetCitiesListRequest getCitiesListRequest) {
-        return "select distinct city as city from users.locations where district = '"+getCitiesListRequest.getDistrict()+"' order by city;";
+        return "select distinct city as city from users.locations where district = '" + getCitiesListRequest.getDistrict() + "' order by city;";
     }
 
     public String getTownsList(GetTownsListRequest getTownsListRequest) {
-        return "select distinct(town) from users.locations where city = '"+getTownsListRequest.getCity()+"' order by town;";
+        return "select distinct(town) from users.locations where city = '" + getTownsListRequest.getCity() + "' order by town;";
     }
 
     public String getCountriesList(GetCountriesListRequest getCountriesListRequest) {
@@ -62,18 +62,30 @@ public class SqlUtility {
     }
 
     public String getAvailableDonorsList(GetDonorsAvailableRequest getDonorsAvailableRequest) {
-        return "select * from users.details where bloodgroup = '"+getDonorsAvailableRequest.getBloodgroup()+"' and country = '"+getDonorsAvailableRequest.getCountry()+"' and town = '"+getDonorsAvailableRequest.getTown()+"' and district = '"+getDonorsAvailableRequest.getDistrict()+"' and city = '"+getDonorsAvailableRequest.getCity()+"' and state = '"+getDonorsAvailableRequest.getState()+"'";
+        return "select * from users.details where bloodgroup = '" + getDonorsAvailableRequest.getBloodgroup() + "' and country = '" + getDonorsAvailableRequest.getCountry() + "' and town = '" + getDonorsAvailableRequest.getTown() + "' and district = '" + getDonorsAvailableRequest.getDistrict() + "' and city = '" + getDonorsAvailableRequest.getCity() + "' and state = '" + getDonorsAvailableRequest.getState() + "'";
     }
 
     public String getUserDetails(GetUserDetailsRequest getUserDetailsRequest) {
-        return "select * from users.details d where mailid = '"+getUserDetailsRequest.getMailid()+"'";
+        return "select * from users.details d where mailid = '" + getUserDetailsRequest.getMailid() + "'";
     }
 
     public String getBloodGroupsListSql(GetBloodGroupsRequest getBloodGroupsRequest) {
-        return "select blood_group from users.blood_groups order by blood_group;" ;
+        return "select blood_group from users.blood_groups order by blood_group;";
     }
 
     public String addReviewSql(AddUserReviewRequest addUserReviewRequest) {
-    return "insert into users.reviews values ('" + addUserReviewRequest.getMailid() + "','" + addUserReviewRequest.getStars() + "','" + addUserReviewRequest.getComment() + "')";
+        return "insert into users.reviews values ('" + addUserReviewRequest.getMailid() + "','" + addUserReviewRequest.getStars() + "','" + addUserReviewRequest.getComment() + "')";
+    }
+
+    public String getBloodDonorCountWithPincode(AddUserRequest addUserRequest) {
+        return "select * from users.blood_groups_count where pincode = '" + addUserRequest.getPincode() + "' and blood_group = '" + addUserRequest.getBloodgroup() + "';";
+    }
+
+    public String modifyBloodGroupCountTable(AddUserRequest addUserRequest, boolean exists) {
+        if (exists) {
+            return "update users.blood_groups_count set count = (select count from users.blood_groups_count where blood_group = '" + addUserRequest.getBloodgroup() + "')+1 where blood_group = '" + addUserRequest.getBloodgroup() + "' and pincode = '\" + addUserRequest.getPincode() + \"';\"";
+        } else {
+            return "insert into users.blood_groups_count (blood_group,count,pincode) values ('" + addUserRequest.getBloodgroup() + "',1,'" + addUserRequest.getPincode() + "');";
+        }
     }
 }

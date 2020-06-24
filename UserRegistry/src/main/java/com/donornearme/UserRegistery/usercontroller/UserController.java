@@ -39,7 +39,7 @@ public class UserController extends BaseController {
     }
 
     @PutMapping("/updateUser")
-    public UpdateUserResponse updateUser(@RequestParam (required = true) String mailid , @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
+    public UpdateUserResponse updateUser(@RequestParam(required = true) String mailid, @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
         return userUtility.updataUser(mailid, updateUserRequest);
     }
 
@@ -52,7 +52,6 @@ public class UserController extends BaseController {
     public AddUserReviewResponse addReviews(@RequestBody AddUserReviewRequest addUserReviewRequest) throws Exception {
         return userUtility.addUserReview(addUserReviewRequest);
     }
-
 
 
 }

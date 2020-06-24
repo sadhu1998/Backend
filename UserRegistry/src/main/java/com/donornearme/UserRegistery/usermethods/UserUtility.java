@@ -72,15 +72,10 @@ public class UserUtility extends BaseController {
             String insert_user = sqlUtility.addUserToDbSql(addUserRequest);
             sqlManager.renderInsertQuery(insert_user);
 
-            String sql = "select * from users.blood_groups_count where pincode = '" + addUserRequest.getPincode() + "' and blood_group = '" + addUserRequest.getBloodgroup() + "';";
+            String sql = sqlUtility.getBloodDonorCountWithPincode(addUserRequest);
             List<Map<String, Object>> donorcount_map = sqlManager.renderSelectQuery(sql);
-            if (donorcount_map.size() > 0) {
-                sql = "update users.blood_groups_count set count = (select count from users.blood_groups_count where blood_group = '" + addUserRequest.getBloodgroup() + "')+1 where blood_group = '" + addUserRequest.getBloodgroup() + "' and pincode = '" + addUserRequest.getPincode() + "';";
-                sqlManager.renderInsertQuery(sql);
-            } else {
-                sql = "insert into users.blood_groups_count (blood_group,count,pincode) values ('" + addUserRequest.getBloodgroup() + "',1,'" + addUserRequest.getPincode() + "');";
-                sqlManager.renderInsertQuery(sql);
-            }
+            sql = sqlUtility.modifyBloodGroupCountTable(addUserRequest, donorcount_map.size() > 0);
+            sqlManager.renderInsertQuery(sql);
             addUserResponse.setStatus(Common.ADDED_USER_SUCCESFULLY);
             status_map.put(Common.STATUS, Common.ADDED_USER_SUCCESFULLY);
         }
@@ -229,20 +224,6 @@ public class UserUtility extends BaseController {
         }
     }
 
-    public boolean sessionExists(String mailid) throws Exception {
-        HashMap<String, Object> user_map = new HashMap<>();
-        user_map.put("mailid", mailid);
-        List<Map<String, Object>> session_count_map = STRenderer.renderSelectTemplate(dbConnection.getConnection(), "session_exists", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, user_map);
-
-        if (session_count_map.size() > 0) {
-            logger.info("Session Exists : " + true);
-            return true;
-        } else {
-            logger.info("Session Exists : " + false);
-            return false;
-        }
-    }
-
 
     public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest getUserDetailsRequest) throws Exception {
         GetUserDetailsResponse getUserDetailsResponse = new GetUserDetailsResponse();
@@ -268,6 +249,21 @@ public class UserUtility extends BaseController {
         }
         return addUserReviewResponse;
     }
+
+    public boolean sessionExists(String mailid) throws Exception {
+        HashMap<String, Object> user_map = new HashMap<>();
+        user_map.put("mailid", mailid);
+        List<Map<String, Object>> session_count_map = STRenderer.renderSelectTemplate(dbConnection.getConnection(), "session_exists", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, user_map);
+
+        if (session_count_map.size() > 0) {
+            logger.info("Session Exists : " + true);
+            return true;
+        } else {
+            logger.info("Session Exists : " + false);
+            return false;
+        }
+    }
+
 
     public String getAllDonorsCount() throws Exception {
         HashMap<String, Object> map = new HashMap<>();
