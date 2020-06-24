@@ -38,15 +38,21 @@ public class UserController extends BaseController {
         return mailUtility.sendOTPForgotPassword(forgotPasswordRequest);
     }
 
-    @PutMapping("/updateUser/{mailid}")
-    public UpdateUserResponse updateUser(@PathVariable String mailid, @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
+    @PutMapping("/updateUser")
+    public UpdateUserResponse updateUser(@RequestParam (required = true) String mailid , @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
         return userUtility.updataUser(mailid, updateUserRequest);
     }
 
-    @DeleteMapping("/deleteUser/{mailid}")
+    @DeleteMapping("/deleteUser")
     public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws Exception {
         return userUtility.deleteUser(deleteUserRequest);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/addreview")
+    public AddUserReviewResponse addReviews(@RequestBody AddUserReviewRequest addUserReviewRequest) throws Exception {
+        return userUtility.addUserReview(addUserReviewRequest);
+    }
+
 
 
 }

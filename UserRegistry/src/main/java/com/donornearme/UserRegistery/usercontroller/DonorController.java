@@ -16,11 +16,6 @@ public class DonorController extends BaseController {
     private final UserUtility userUtility = new UserUtility();
     MailUtility mailUtility = new MailUtility();
 
-    @RequestMapping(method = RequestMethod.POST, value = "/addreview")
-    public AddUserReviewResponse addReviews(@RequestBody AddUserReviewRequest addUserReviewRequest) throws Exception {
-        return userUtility.addUserReview(addUserReviewRequest);
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/sendmailtodonor")
     public SendMailToDonorResponse sendMailToDonor(@RequestBody SendMailToDonorRequest sendMailToDonorRequest) throws Exception {
         return mailUtility.sendMailToDonor(sendMailToDonorRequest);
