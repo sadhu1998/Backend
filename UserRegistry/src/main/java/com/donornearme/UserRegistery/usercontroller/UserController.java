@@ -33,10 +33,10 @@ public class UserController extends BaseController {
         return userUtility.validateOtp(validateOTPRequest);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/forgotpassword")
-    public ForgotPasswordResponse forgetPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws Exception {
-        return mailUtility.sendOTPForgotPassword(forgotPasswordRequest);
-    }
+//    @RequestMapping(method = RequestMethod.POST, value = "/forgotpassword")
+//    public ForgotPasswordResponse forgetPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws Exception {
+//        return mailUtility.sendOTPForgotPassword(forgotPasswordRequest);
+//    }
 
     @PutMapping("/updateUser")
     public UpdateUserResponse updateUser(@RequestParam(required = true) String mailid, @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
@@ -52,6 +52,18 @@ public class UserController extends BaseController {
     public AddUserReviewResponse addReviews(@RequestBody AddUserReviewRequest addUserReviewRequest) throws Exception {
         return userUtility.addUserReview(addUserReviewRequest);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/forgotpassword")
+    public ForgotPasswordResponse forgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws Exception {
+        return userUtility.forgotPassword(forgotPasswordRequest);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/updatepassword")
+    public UpdateForgotPasswordResponse updateForgottenPassword(@RequestBody UpdateForgotPasswordRequest updateForgotPasswordRequest) throws Exception {
+        return userUtility.updateforgotPassword(updateForgotPasswordRequest);
+    }
+
+
 
 
 }

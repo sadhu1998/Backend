@@ -32,13 +32,12 @@ public class MailUtility extends BaseController {
         SendOTPToMailResponse sendOTPToMailResponse = new SendOTPToMailResponse();
         sendOTPToMailResponse.setMailid(sendOTPToMailRequest.getMailid());
         HashMap<String, Object> status_map = new HashMap<>();
-//        HashMap<String, Object> user_map = JSONUtils.jsonToMap(json);
         logger.info("Sending OTP to registered Mail");
-        if (userExists(sendOTPToMailRequest.getMailid())) {
-            status_map.put(Common.ERROR, "Provided mailid " + sendOTPToMailRequest.getMailid() + "already exists. Please login");
-            sendOTPToMailResponse.setStatus("Provided mailid " + sendOTPToMailRequest.getMailid() + "already exists. Please login");
-            return sendOTPToMailResponse;
-        }
+//        if (userExists(sendOTPToMailRequest.getMailid())) {
+//            status_map.put(Common.ERROR, "Provided mailid " + sendOTPToMailRequest.getMailid() + "already exists. Please login");
+//            sendOTPToMailResponse.setError("Provided mailid " + sendOTPToMailRequest.getMailid() + "already exists. Please login");
+//            return sendOTPToMailResponse;
+//        }
 
         String mailid = sendOTPToMailRequest.getMailid();
 
@@ -52,7 +51,7 @@ public class MailUtility extends BaseController {
                 "Thanks for becoming a member. Thankyou! Hope we help you! ");
         body_map.put("alias", "sadhu1998@gmail.com");
 
-        HttpResponse<String> response = Unirest.post("http://www.latherapeutics.co/send_mail")
+        HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
                 .header("content-type", "application/json")
                 .header("cache-control", "no-cache")
                 .header("postman-token", "7410dc26-ee04-6f98-0017-cce1097f5148")
@@ -108,7 +107,7 @@ public class MailUtility extends BaseController {
             mail_to_donor_map.put("message", "We are in require of Blood. Please contact the number or mailid!");
         }
 
-        HttpResponse<String> response = Unirest.post("http://www.latherapeutics.co/send_mail")
+        HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
                 .header("content-type", "application/json")
                 .header("cache-control", "no-cache")
                 .header("postman-token", "7410dc26-ee04-6f98-0017-cce1097f5148")
@@ -150,7 +149,7 @@ public class MailUtility extends BaseController {
                 "Thanks for becoming a member. Thankyou! Hope we help you! ");
         body_map.put("alias", "sadhu1998@gmail.com");
 
-        HttpResponse<String> response = Unirest.post("http://www.latherapeutics.co/send_mail")
+        HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
                 .header("content-type", "application/json")
                 .header("cache-control", "no-cache")
                 .header("postman-token", "7410dc26-ee04-6f98-0017-cce1097f5148")

@@ -22,8 +22,7 @@ public class SqlUtility {
     }
 
     public String validateOtpSql(ValidateOTPRequest validateOTPRequest) {
-        return "select otp from users.otp_validation where mailid = '" + validateOTPRequest.getMailid() + "';";
-
+        return "select otp from users.otp_validation where mailid = '" + validateOTPRequest.getMailid() + "' order by crt_ts limit 1;";
     }
 
     public String updateUserSql(UpdateUserRequest updateUserRequest) {
@@ -87,5 +86,9 @@ public class SqlUtility {
         } else {
             return "insert into users.blood_groups_count (blood_group,count,pincode) values ('" + addUserRequest.getBloodgroup() + "',1,'" + addUserRequest.getPincode() + "');";
         }
+    }
+
+    public String updateForgotPasswordSql(UpdateForgotPasswordRequest updateForgotPasswordRequest) {
+        return "update users.creds set password = '"+updateForgotPasswordRequest.getPassword()+"' where mailid = '"+updateForgotPasswordRequest.getMailid()+"'";
     }
 }

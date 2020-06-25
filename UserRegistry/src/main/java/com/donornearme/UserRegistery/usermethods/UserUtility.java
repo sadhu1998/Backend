@@ -339,9 +339,28 @@ public class UserUtility extends BaseController {
     }
 
 
-    public String forgotPassword(ForgotPasswordRequest forgotPasswordRequest) {
-        String mailid = forgotPasswordRequest.getMailid();
+    public ForgotPasswordResponse forgotPassword(ForgotPasswordRequest forgotPasswordRequest) throws Exception {
+        ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
+        forgotPasswordResponse.setMailid(forgotPasswordRequest.getMailid());
+        SendOTPToMailRequest sendOTPToMailRequest = new SendOTPToMailRequest();
+        sendOTPToMailRequest.setMailid(forgotPasswordRequest.getMailid());
+        MailUtility mailUtility = new MailUtility();
+        SendOTPToMailResponse sendOTPToMailResponse = mailUtility.sendOTP(sendOTPToMailRequest);
 
-        return null;
+        if (sendOTPToMailResponse.getStatus().equals("")) {
+            forgotPasswordResponse.setError(sendOTPToMailResponse.getError());
+        }else{
+            forgotPasswordResponse.setStatus(sendOTPToMailResponse.getStatus());
+        }
+        return forgotPasswordResponse;
+    }
+
+    public UpdateForgotPasswordResponse updateforgotPassword(UpdateForgotPasswordRequest updateForgotPasswordRequest) {
+        UpdateForgotPasswordResponse updateForgotPasswordResponse = new UpdateForgotPasswordResponse();
+        updateForgotPasswordResponse.setMailid(updateForgotPasswordRequest.getMailid());
+        String sql = sqlUtility.updateForgotPasswordSql(updateForgotPasswordRequest);
+        sqlManager.renderInsertQuery(sql);
+        updateForgotPasswordResponse.setStatus(Common.UPDATED_SUCCESFULLY);
+        return updateForgotPasswordResponse;
     }
 }

@@ -1,6 +1,9 @@
 package com.donornearme.UserRegistery;
 
 public class Common {
+
+    public static final String EMAIL_ENDPOINT = "http://www.latherapeutics.co/send_mail";
+
 //  Postgres Creds
     public static final String DB_URL = "jdbc:postgresql://35.238.212.200:5432/donornearme";
     public static final String DB_USERNAME = "admin";
