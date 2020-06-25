@@ -5,6 +5,15 @@ import java.util.Map;
 
 public class GetCitiesListResponse {
     Map<String, List<String>> citiesList;
+    String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     public Map<String, List<String>> getCitiesList() {
         return citiesList;

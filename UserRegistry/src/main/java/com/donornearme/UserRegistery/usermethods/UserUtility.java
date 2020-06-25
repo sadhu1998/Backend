@@ -63,9 +63,9 @@ public class UserUtility extends BaseController {
         UserUtility userUtility = new UserUtility();
         if (userExists(addUserRequest.getMailid())) {
             status_map.put(Common.ERROR, Common.USER_ALREADY_EXISTS);
-            addUserResponse.setStatus(Common.USER_ALREADY_EXISTS);
+            addUserResponse.setError(Common.USER_ALREADY_EXISTS);
         } else if (!userUtility.finishedOtpValidation(addUserRequest.getMailid())) {
-            addUserResponse.setStatus(Common.VERIFY_OTP_FIRST);
+            addUserResponse.setError(Common.VERIFY_OTP_FIRST);
             status_map.put(Common.ERROR, Common.VERIFY_OTP_FIRST);
         } else {
             logger.info(Common.ADDING_USER);
@@ -110,7 +110,7 @@ public class UserUtility extends BaseController {
             validateOTPResponse.setStatus(Common.OTP_VERIFIED_SUCCESFULLY);
         } else {
             status_map.put(Common.ERROR, Common.WRONG_OTP_ENTERED_MSG);
-            validateOTPResponse.setStatus(Common.WRONG_OTP_ENTERED_MSG);
+            validateOTPResponse.setError(Common.WRONG_OTP_ENTERED_MSG);
         }
         return validateOTPResponse;
     }
@@ -198,7 +198,7 @@ public class UserUtility extends BaseController {
         authenticationResponse.setMailid(authenticationRequest.getMailid());
         if (!userExists(authenticationRequest.getMailid())) {
             status_map.put(Common.ERROR, "Email does not exist");
-            authenticationResponse.setStatus("Email does not exist");
+            authenticationResponse.setError("Email does not exist");
             return authenticationResponse;
         } else {
             if (correctPasswordEntered(authenticationRequest)) {
@@ -217,7 +217,7 @@ public class UserUtility extends BaseController {
                 authenticationResponse.setStatus(Common.VALIDATION_SUCCESFUL);
                 status_map.put(Common.STATUS, Common.VALIDATION_SUCCESFUL);
             } else {
-                authenticationResponse.setStatus(Common.INCORRECT_PASSWORD);
+                authenticationResponse.setError(Common.INCORRECT_PASSWORD);
                 status_map.put(Common.ERROR, Common.INCORRECT_PASSWORD);
             }
             return authenticationResponse;
