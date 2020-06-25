@@ -105,7 +105,7 @@ select password from users.creds where mailid = '$data.mailid$';
 >>
 
 session_exists(data)::=<<
-select * from users.login_sessions ls where CURRENT_TIMESTAMP - start_ts < INTERVAL '30' MINUTE
+select * from users.login_sessions ls where CURRENT_TIMESTAMP - start_ts < INTERVAL '30' MINUTE;
 >>
 
 otp_validation_success(data)::=<<

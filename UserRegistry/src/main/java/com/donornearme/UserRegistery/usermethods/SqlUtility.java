@@ -91,4 +91,8 @@ public class SqlUtility {
     public String updateForgotPasswordSql(UpdateForgotPasswordRequest updateForgotPasswordRequest) {
         return "update users.creds set password = '"+updateForgotPasswordRequest.getPassword()+"' where mailid = '"+updateForgotPasswordRequest.getMailid()+"'";
     }
+
+    public String sessionExistsSql(String mailid) {
+        return "select * from users.login_sessions ls where CURRENT_TIMESTAMP - start_ts < INTERVAL '30' MINUTE and mailid = '"+mailid+"';";
+    }
 }

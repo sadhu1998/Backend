@@ -43,18 +43,17 @@ public class MailUtility extends BaseController {
 
         String otp = generateOTP();
         Map<String, String> body_map = new HashMap<>();
-        body_map.put("from_mail", user);
-        body_map.put("password", password);
-        body_map.put("to", mailid);
-        body_map.put("subject", "Donor Near Me - OTP Verification");
-        body_map.put("message", otp + " is the OTP for verifying mail_id for donornearme." +
+        body_map.put(Common.FROM_MAIL, user);
+        body_map.put(Common.FROM_MAIL_PASSWORD, password);
+        body_map.put(Common.TO_MAIL, mailid);
+        body_map.put(Common.SUBJECT, Common.OTP_VALIDATION_SUBJECT);
+        body_map.put(Common.OTP_SEND_MESSAGE, otp + " is the OTP for verifying mail_id for donornearme." +
                 "Thanks for becoming a member. Thankyou! Hope we help you! ");
         body_map.put("alias", "sadhu1998@gmail.com");
 
         HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
-                .header("content-type", "application/json")
-                .header("cache-control", "no-cache")
-                .header("postman-token", "7410dc26-ee04-6f98-0017-cce1097f5148")
+                .header(Common.CONTENT_TYPE, Common.CONTEST_JSON)
+                .header(Common.CACHE_CONTROL, Common.NO_CACHE)
                 .body(mapper.writeValueAsString(body_map))
                 .asString();
 
@@ -97,25 +96,24 @@ public class MailUtility extends BaseController {
         HashMap<String, Object> status_map = new HashMap<>();
         HashMap<String, Object> mail_to_donor_map = new HashMap<>();
 
-        mail_to_donor_map.put("from_mail", user);
-        mail_to_donor_map.put("password", password);
-        mail_to_donor_map.put("subject", "Donor Near Me - Require Blood");
+        mail_to_donor_map.put(Common.FROM_MAIL, user);
+        mail_to_donor_map.put(Common.FROM_MAIL_PASSWORD, password);
+        mail_to_donor_map.put(Common.SUBJECT, "Donor Near Me - Require Blood");
         mail_to_donor_map.put("alias", "sadhu1998@gmail.com");
-        mail_to_donor_map.put("to", sendMailToDonorRequest.getMailid());
+        mail_to_donor_map.put(Common.TO_MAIL, sendMailToDonorRequest.getMailid());
 
-        if (mail_to_donor_map.get("message").equals("") || !mail_to_donor_map.containsKey("message")) {
-            mail_to_donor_map.put("message", "We are in require of Blood. Please contact the number or mailid!");
+        if (mail_to_donor_map.get(Common.OTP_SEND_MESSAGE).equals("") || !mail_to_donor_map.containsKey(Common.OTP_SEND_MESSAGE)) {
+            mail_to_donor_map.put(Common.OTP_SEND_MESSAGE, "We are in require of Blood. Please contact the number or mailid!");
         }
 
         HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
-                .header("content-type", "application/json")
-                .header("cache-control", "no-cache")
-                .header("postman-token", "7410dc26-ee04-6f98-0017-cce1097f5148")
+                .header(Common.CONTENT_TYPE, Common.CONTEST_JSON)
+                .header(Common.CACHE_CONTROL, Common.NO_CACHE)
                 .body(mapper.writeValueAsString(mail_to_donor_map))
                 .asString();
 
         if (response.getStatus() == 200) {
-            logger.info("Mail sent successfully from " + user + " to " + mail_to_donor_map.get("to"));
+            logger.info("Mail sent successfully from " + user + " to " + mail_to_donor_map.get(Common.TO_MAIL));
             sendMailToDonorResponse.setStatus("Mail has been sent succesfully.");
             status_map.put(Common.STATUS, "Mail has been sent succesfully.");
         } else {
@@ -141,18 +139,17 @@ public class MailUtility extends BaseController {
         String mailid = forgotPasswordRequest.getMailid();
         String otp = generateOTP();
         Map<String, String> body_map = new HashMap<>();
-        body_map.put("from_mail", user);
-        body_map.put("password", password);
-        body_map.put("to", mailid);
-        body_map.put("subject", "Donor Near Me - OTP Verification");
-        body_map.put("message", otp + " is the OTP for verifying mail_id for donornearme." +
+        body_map.put(Common.FROM_MAIL, user);
+        body_map.put(Common.FROM_MAIL_PASSWORD, password);
+        body_map.put(Common.TO_MAIL, mailid);
+        body_map.put(Common.SUBJECT, Common.OTP_VALIDATION_SUBJECT);
+        body_map.put(Common.OTP_SEND_MESSAGE, otp + " is the OTP for verifying mail_id for donornearme." +
                 "Thanks for becoming a member. Thankyou! Hope we help you! ");
         body_map.put("alias", "sadhu1998@gmail.com");
 
         HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
-                .header("content-type", "application/json")
-                .header("cache-control", "no-cache")
-                .header("postman-token", "7410dc26-ee04-6f98-0017-cce1097f5148")
+                .header(Common.CONTENT_TYPE, Common.CONTEST_JSON)
+                .header(Common.CACHE_CONTROL, Common.NO_CACHE)
                 .body(mapper.writeValueAsString(body_map))
                 .asString();
 

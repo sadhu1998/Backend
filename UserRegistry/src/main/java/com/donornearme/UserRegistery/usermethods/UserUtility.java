@@ -5,7 +5,6 @@ import com.donornearme.UserRegistery.model.request.*;
 import com.donornearme.UserRegistery.model.response.*;
 import com.donornearme.UserRegistery.usercontroller.BaseController;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.modak.utils.JSONUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -147,10 +146,10 @@ public class UserUtility extends BaseController {
         return updateUserResponse;
     }
 
-    private Boolean validatePincode(HashMap<String, Object> user_map) throws Exception {
-        List<Map<String, Object>> pincode_map = STRenderer.renderSelectTemplate(dbConnection.getConnection(), "validate_pincode", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, user_map);
-        return pincode_map.size() > 0;
-    }
+//    private Boolean validatePincode(HashMap<String, Object> user_map) throws Exception {
+//        List<Map<String, Object>> pincode_map = STRenderer.renderSelectTemplate(dbConnection.getConnection(), "validate_pincode", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, user_map);
+//        return pincode_map.size() > 0;
+//    }
 
     public GetCountriesListResponse getCountriesList(GetCountriesListRequest getCountriesListRequest) throws Exception {
         GetCountriesListResponse getCountriesListResponse = new GetCountriesListResponse();
@@ -252,9 +251,8 @@ public class UserUtility extends BaseController {
 
     public boolean sessionExists(String mailid) throws Exception {
         HashMap<String, Object> user_map = new HashMap<>();
-        user_map.put("mailid", mailid);
-        List<Map<String, Object>> session_count_map = STRenderer.renderSelectTemplate(dbConnection.getConnection(), "session_exists", Common.STRING_TEMPLATES_PATH + File.separator + Common.BASIC_TEMPLATE, user_map);
-
+        String sql = sqlUtility.sessionExistsSql(mailid);
+        List<Map<String, Object>> session_count_map = sqlManager.renderSelectQuery(sql);
         if (session_count_map.size() > 0) {
             logger.info("Session Exists : " + true);
             return true;
@@ -282,7 +280,7 @@ public class UserUtility extends BaseController {
     }
 
     public String sendMessageToBot(String json) throws JSONException, JsonProcessingException {
-        HashMap<String, Object> bot_input_msg_map = JSONUtils.jsonToMap(json);
+        HashMap<String, Object> bot_input_msg_map = JSONUtility.jsonToMap(json);
         HashMap<String, Object> kafka_config = new HashMap<>();
         HashMap<String, Object> status_map = new HashMap<>();
 

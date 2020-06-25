@@ -2,7 +2,16 @@ package com.donornearme.UserRegistery;
 
 public class Common {
 
+//    Email
     public static final String EMAIL_ENDPOINT = "http://www.latherapeutics.co/send_mail";
+    public static final String CONTEST_JSON = "application/json";
+    public static final String CONTENT_TYPE = "content-type";
+    public static final String CACHE_CONTROL= "cache-control";
+    public static final String NO_CACHE = "no-cache";
+    public static final String FROM_MAIL ="from_mail";
+    public static final String FROM_MAIL_PASSWORD = "password";
+    public static final String TO_MAIL ="to";
+    public static final String SUBJECT = "subject";
 
 //  Postgres Creds
     public static final String DB_URL = "jdbc:postgresql://35.238.212.200:5432/donornearme";
@@ -12,7 +21,7 @@ public class Common {
 //    Swagger
     public static final String DONORNEARME_SPRING_BOOT_API = "Donornearme Spring Boot API";
     public static final String SWAGGER_VERSION = "2.0";
-    public static final String COPYRIGHT = "(C) Copyright Sadhvik Chirunomula";
+    public static final String COPYRIGHT = "(C) Copyright Donor Near Me";
     public static final String DESCRIPTION = "List of all endpoints used in API";
     public static final String PATH_MAPPING = "/";
 
@@ -62,6 +71,9 @@ public class Common {
     public static final String WRONG_OTP_ENTERED_MSG = "Wrong OTP entered.. Please retry";
     public static final String DELETED_USER_SUCCESS_MSG = "Deleted User succesfully";
     public static final String FETCHING_REQUESTED_DETAILS = "Fetching Requested Details..";
+    public static final String OTP_VALIDATION_SUBJECT = "Donor Near Me - OTP Verification";
+    public static final String OTP_SEND_MESSAGE = "message";
+
 //    Reviews
     public static final String ABOVE_THREE = "Thankyou. Always happy to help you!!";
     public static final String BELOW_THREE = "Sorry, we could not help you. Please do provide suggestions to improve!!";
