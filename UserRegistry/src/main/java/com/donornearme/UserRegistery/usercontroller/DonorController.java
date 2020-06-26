@@ -1,13 +1,7 @@
 package com.donornearme.UserRegistery.usercontroller;
 
-import com.donornearme.UserRegistery.model.request.GetBloodGroupsRequest;
-import com.donornearme.UserRegistery.model.request.GetDonorsAvailableRequest;
-import com.donornearme.UserRegistery.model.request.GetUserDetailsRequest;
-import com.donornearme.UserRegistery.model.request.SendMailToDonorRequest;
-import com.donornearme.UserRegistery.model.response.GetBloodGroupsResponse;
-import com.donornearme.UserRegistery.model.response.GetDonorsAvailableResponse;
-import com.donornearme.UserRegistery.model.response.GetUserDetailsResponse;
-import com.donornearme.UserRegistery.model.response.SendMailToDonorResponse;
+import com.donornearme.UserRegistery.model.request.*;
+import com.donornearme.UserRegistery.model.response.*;
 import com.donornearme.UserRegistery.usermethods.MailUtility;
 import com.donornearme.UserRegistery.usermethods.UserUtility;
 import io.swagger.annotations.Api;
@@ -41,8 +35,8 @@ public class DonorController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getdonorcount")
-    public String getTotalDonorCount() throws Exception {
-        return userUtility.getAllDonorsCount();
+    public GetAllDonorsCountResponse getTotalDonorCount(GetAllDonorsCountRequest getAllDonorsCountRequest) throws Exception {
+        return userUtility.getAllDonorsCount(getAllDonorsCountRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getlist/bloodgroups")

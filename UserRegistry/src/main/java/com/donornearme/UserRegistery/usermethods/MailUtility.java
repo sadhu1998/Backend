@@ -2,10 +2,10 @@ package com.donornearme.UserRegistery.usermethods;
 
 import com.donornearme.UserRegistery.Common;
 import com.donornearme.UserRegistery.extensionmanager.SQLManager;
-import com.donornearme.UserRegistery.model.request.ForgotPasswordRequest;
+import com.donornearme.UserRegistery.model.request.ContactUsRequest;
 import com.donornearme.UserRegistery.model.request.SendMailToDonorRequest;
 import com.donornearme.UserRegistery.model.request.SendOTPToMailRequest;
-import com.donornearme.UserRegistery.model.response.ForgotPasswordResponse;
+import com.donornearme.UserRegistery.model.response.ContactUsResponse;
 import com.donornearme.UserRegistery.model.response.SendMailToDonorResponse;
 import com.donornearme.UserRegistery.model.response.SendOTPToMailResponse;
 import com.donornearme.UserRegistery.usercontroller.BaseController;
@@ -124,47 +124,36 @@ public class MailUtility extends BaseController {
         return sendMailToDonorResponse;
     }
 
-    public ForgotPasswordResponse sendOTPForgotPassword(ForgotPasswordRequest forgotPasswordRequest) throws Exception {
-        HashMap<String, Object> status_map = new HashMap<>();
-        ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
-        forgotPasswordResponse.setMailid(forgotPasswordRequest.getMailid());
+    public ContactUsResponse contactUsMail(ContactUsRequest contactUsRequest) throws JsonProcessingException, UnirestException {
+        ContactUsResponse contactUsResponse = new ContactUsResponse();
+        HashMap<String, Object> mail_to_donor_map = new HashMap<>();
+        contactUsResponse.setMailid(contactUsRequest.getMailid());
 
-        logger.info("Sending OTP to registered Mail");
-        if (userExists(forgotPasswordRequest.getMailid())) {
-            status_map.put(Common.ERROR, "Provided mailid " + forgotPasswordRequest.getMailid() + "already exists. Please login");
-            forgotPasswordResponse.setStatus("Provided mailid " + forgotPasswordRequest.getMailid() + "already exists. Please login");
-            return forgotPasswordResponse;
-        }
+        mail_to_donor_map.put(Common.FROM_MAIL, user);
+        mail_to_donor_map.put(Common.FROM_MAIL_PASSWORD, password);
+        mail_to_donor_map.put(Common.SUBJECT, "User want to contact");
+        mail_to_donor_map.put("alias", "sadhu1998@gmail.com");
+        mail_to_donor_map.put(Common.TO_MAIL, user);
 
-        String mailid = forgotPasswordRequest.getMailid();
-        String otp = generateOTP();
-        Map<String, String> body_map = new HashMap<>();
-        body_map.put(Common.FROM_MAIL, user);
-        body_map.put(Common.FROM_MAIL_PASSWORD, password);
-        body_map.put(Common.TO_MAIL, mailid);
-        body_map.put(Common.SUBJECT, Common.OTP_VALIDATION_SUBJECT);
-        body_map.put(Common.OTP_SEND_MESSAGE, otp + " is the OTP for verifying mail_id for donornearme." +
-                "Thanks for becoming a member. Thankyou! Hope we help you! ");
-        body_map.put("alias", "sadhu1998@gmail.com");
+        mail_to_donor_map.put(Common.OTP_SEND_MESSAGE, contactUsSubject(contactUsRequest) );
 
         HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
                 .header(Common.CONTENT_TYPE, Common.CONTEST_JSON)
                 .header(Common.CACHE_CONTROL, Common.NO_CACHE)
-                .body(mapper.writeValueAsString(body_map))
+                .body(mapper.writeValueAsString(mail_to_donor_map))
                 .asString();
 
         if (response.getStatus() == 200) {
-            String sql = "insert into users.otp_validation (mailid , otp, status, crt_ts) " +
-                    "values ('" + forgotPasswordRequest.getMailid() + "','" + otp + "','initiated',now());";
-            sqlManager.renderInsertQuery(sql);
-            logger.info("OTP sent successfully...");
-            status_map.put(Common.STATUS, "Mail has been sent to " + mailid + " succesfully.");
-            forgotPasswordResponse.setStatus("Mail has been sent to " + mailid + " succesfully.");
+            contactUsResponse.setStatus("We will reach you shortly");
+            return contactUsResponse;
         } else {
-            logger.error("Failed to send OTP");
-            forgotPasswordResponse.setStatus("Mail has been sent to " + mailid + " succesfully.");
+            contactUsResponse.setError("We are currently busy.");
+            logger.error("Failed to send Mail");
+            return contactUsResponse;
         }
-        return forgotPasswordResponse;
     }
 
+    public String contactUsSubject(ContactUsRequest contactUsRequest){
+        return "Hi, I am "+contactUsRequest.getUsername()+"We want to contact You. This is my email :" +contactUsRequest.getMailid()+" This is my Phone Number :"+contactUsRequest.getPhonenumber();
+    }
 }

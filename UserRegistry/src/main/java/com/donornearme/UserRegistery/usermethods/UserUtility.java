@@ -5,6 +5,7 @@ import com.donornearme.UserRegistery.model.request.*;
 import com.donornearme.UserRegistery.model.response.*;
 import com.donornearme.UserRegistery.usercontroller.BaseController;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -24,6 +25,7 @@ public class UserUtility extends BaseController {
 
     public boolean userExists(String mailid) throws Exception {
         String sql = sqlUtility.userExistsSql(mailid);
+        logger.info(Common.EXECUTING_SQL +sql);
         List<Map<String, Object>> count_map = sqlManager.renderSelectQuery(sql);
         if (count_map.size() > 0) {
             logger.info(Common.USER_EXISTS + true);
@@ -36,6 +38,7 @@ public class UserUtility extends BaseController {
 
     public boolean correctPasswordEntered(AuthenticationRequest authenticationRequest) throws Exception {
         String sql = sqlUtility.correctPasswordEnteredSql(authenticationRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         List<Map<String, Object>> credMap = sqlManager.renderSelectQuery(sql);
         String password_from_table = (String) credMap.get(0).get("password");
         logger.info(Common.ORIGINAL_PASSWORD_IS + password_from_table);
@@ -46,6 +49,7 @@ public class UserUtility extends BaseController {
 
     public boolean finishedOtpValidation(String mailid) throws Exception {
         String sql = sqlUtility.finishedOTPValidationSql(mailid);
+        logger.info(Common.EXECUTING_SQL +sql);
         List<Map<String, Object>> count_map = sqlManager.renderSelectQuery(sql);
         if (count_map.size() > 0) {
             logger.info(Common.OTP_STATUS + true);
@@ -57,26 +61,23 @@ public class UserUtility extends BaseController {
     }
 
     public AddUserResponse addUserToDb(AddUserRequest addUserRequest) throws Exception {
-        HashMap<String, Object> status_map = new HashMap<>();
         AddUserResponse addUserResponse = new AddUserResponse();
         UserUtility userUtility = new UserUtility();
         if (userExists(addUserRequest.getMailid())) {
-            status_map.put(Common.ERROR, Common.USER_ALREADY_EXISTS);
             addUserResponse.setError(Common.USER_ALREADY_EXISTS);
         } else if (!userUtility.finishedOtpValidation(addUserRequest.getMailid())) {
             addUserResponse.setError(Common.VERIFY_OTP_FIRST);
-            status_map.put(Common.ERROR, Common.VERIFY_OTP_FIRST);
         } else {
             logger.info(Common.ADDING_USER);
-            String insert_user = sqlUtility.addUserToDbSql(addUserRequest);
-            sqlManager.renderInsertQuery(insert_user);
+            String sql = sqlUtility.addUserToDbSql(addUserRequest);
+            logger.info(Common.EXECUTING_SQL +sql);
+            sqlManager.renderInsertQuery(sql);
 
-            String sql = sqlUtility.getBloodDonorCountWithPincode(addUserRequest);
+            sql = sqlUtility.getBloodDonorCountWithPincode(addUserRequest);
             List<Map<String, Object>> donorcount_map = sqlManager.renderSelectQuery(sql);
             sql = sqlUtility.modifyBloodGroupCountTable(addUserRequest, donorcount_map.size() > 0);
             sqlManager.renderInsertQuery(sql);
             addUserResponse.setStatus(Common.ADDED_USER_SUCCESFULLY);
-            status_map.put(Common.STATUS, Common.ADDED_USER_SUCCESFULLY);
         }
         return addUserResponse;
     }
@@ -90,8 +91,8 @@ public class UserUtility extends BaseController {
         ValidateOTPResponse validateOTPResponse = new ValidateOTPResponse();
         validateOTPResponse.setMailid(validateOTPRequest.getMailid());
 
-        HashMap<String, Object> status_map = new HashMap<>();
         String sql = sqlUtility.validateOtpSql(validateOTPRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         List<Map<String, Object>> otp_map = sqlManager.renderSelectQuery(sql);
         if (otp_map.size() == 0) {
             validateOTPResponse.setStatus("Please Wait!");
@@ -102,13 +103,13 @@ public class UserUtility extends BaseController {
         logger.info(Common.OTP_ENTERED_BY_USER + validateOTPRequest.getOtp());
         if (validateOTPRequest.getOtp().equals(otp_from_table)) {
             sql = "update users.otp_validation set status = 'VALIDATED' where mailid = '" + validateOTPRequest.getMailid() + "';";
+            logger.info(Common.EXECUTING_SQL +sql);
             sqlManager.renderInsertQuery(sql);
             sql = "update users.details set verification_status = 'VALIDATED' where mailid = '" + validateOTPRequest.getMailid() + "';";
+            logger.info(Common.EXECUTING_SQL +sql);
             sqlManager.renderInsertQuery(sql);
-            status_map.put(Common.STATUS, Common.OTP_VERIFIED_SUCCESFULLY);
             validateOTPResponse.setStatus(Common.OTP_VERIFIED_SUCCESFULLY);
         } else {
-            status_map.put(Common.ERROR, Common.WRONG_OTP_ENTERED_MSG);
             validateOTPResponse.setError(Common.WRONG_OTP_ENTERED_MSG);
         }
         return validateOTPResponse;
@@ -118,10 +119,9 @@ public class UserUtility extends BaseController {
         DeleteUserResponse deleteUserResponse = new DeleteUserResponse();
         deleteUserResponse.setMailid(deleteUserRequest.getMailid());
         logger.info(Common.DELETING_USER);
-        HashMap<String, Object> status_map = new HashMap<>();
         String sql = sqlUtility.deleteUserSql(deleteUserRequest.getMailid());
+        logger.info(Common.EXECUTING_SQL +sql);
         sqlManager.renderInsertQuery(sql);
-        status_map.put("stats", Common.DELETED_USER_SUCCESS_MSG);
         deleteUserResponse.setStatus(Common.DELETED_USER_SUCCESS_MSG);
         return deleteUserResponse;
     }
@@ -130,6 +130,7 @@ public class UserUtility extends BaseController {
         GetDonorsAvailableResponse getDonorsAvailableResponse = new GetDonorsAvailableResponse();
         logger.info(Common.FETCHING_REQUESTED_DETAILS);
         String sql = sqlUtility.getAvailableDonorsList(getDonorsAvailableRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         List<Map<String, Object>> requests_map = sqlManager.renderSelectQuery(sql);
         getDonorsAvailableResponse.setDonorsList(requests_map);
         return getDonorsAvailableResponse;
@@ -138,10 +139,9 @@ public class UserUtility extends BaseController {
     public UpdateUserResponse updataUser(String mailid, UpdateUserRequest updateUserRequest) throws Exception {
         UpdateUserResponse updateUserResponse = new UpdateUserResponse();
         updateUserResponse.setMailid(updateUserRequest.getMailid());
-        HashMap<String, Object> status_map = new HashMap<>();
         String sql = sqlUtility.updateUserSql(updateUserRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         sqlManager.renderInsertQuery(sql);
-        status_map.put(Common.STATUS, Common.UPDATED_SUCCESFULLY);
         updateUserResponse.setStatus(Common.UPDATED_SUCCESFULLY);
         return updateUserResponse;
     }
@@ -154,6 +154,7 @@ public class UserUtility extends BaseController {
     public GetCountriesListResponse getCountriesList(GetCountriesListRequest getCountriesListRequest) throws Exception {
         GetCountriesListResponse getCountriesListResponse = new GetCountriesListResponse();
         String sql = sqlUtility.getCountriesList(getCountriesListRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
         getCountriesListResponse.setCountriesList(pincode_map);
         return getCountriesListResponse;
@@ -162,6 +163,7 @@ public class UserUtility extends BaseController {
     public GetStatesListResponse getStatesList(GetStatesListRequest getStatesListRequest) throws Exception {
         GetStatesListResponse getStatesListResponse = new GetStatesListResponse();
         String sql = sqlUtility.getStatesListSql(getStatesListRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
         getStatesListResponse.setStatesList(pincode_map);
         return getStatesListResponse;
@@ -170,6 +172,7 @@ public class UserUtility extends BaseController {
     public GetDistrictsListResponse getDistrictsList(GetDistrictsListRequest getDistrictsListRequest) throws Exception {
         GetDistrictsListResponse getDistrictsListResponse = new GetDistrictsListResponse();
         String sql = sqlUtility.getDistrictsListSql(getDistrictsListRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
         getDistrictsListResponse.setDistrictsList(pincode_map);
         return getDistrictsListResponse;
@@ -178,6 +181,7 @@ public class UserUtility extends BaseController {
     public GetTownsListResponse getTownsList(GetTownsListRequest getTownsListRequest) throws Exception {
         GetTownsListResponse getTownsListResponse = new GetTownsListResponse();
         String sql = sqlUtility.getTownsList(getTownsListRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
         getTownsListResponse.setTownsList(pincode_map);
         return getTownsListResponse;
@@ -186,6 +190,7 @@ public class UserUtility extends BaseController {
     public GetCitiesListResponse getCitiesList(GetCitiesListRequest getCitiesListRequest) throws Exception {
         GetCitiesListResponse getCitiesListResponse = new GetCitiesListResponse();
         String sql = sqlUtility.getCitiesListSql(getCitiesListRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         Map<String, List<String>> pincode_map = sqlManager.renderSelectQueryReturnMapOfList(sql);
         getCitiesListResponse.setCitiesList(pincode_map);
         return getCitiesListResponse;
@@ -202,13 +207,16 @@ public class UserUtility extends BaseController {
         } else {
             if (correctPasswordEntered(authenticationRequest)) {
                 String sql = "delete from users.login_sessions where mailid = '" + authenticationRequest.getMailid() + "' or CURRENT_TIMESTAMP - start_ts > INTERVAL '30' MINUTE;";
+                logger.info(Common.EXECUTING_SQL +sql);
                 sqlManager.renderInsertQuery(sql);
 
                 sql = "insert into users.login_sessions (mailid,start_ts,end_ts) values ('" + authenticationRequest.getMailid() + "',CURRENT_TIMESTAMP,'9999-12-31 00:00:00');";
+                logger.info(Common.EXECUTING_SQL +sql);
                 sqlManager.renderInsertQuery(sql);
 
                 sql = "select * from users.details d where mailid = '" + authenticationRequest.getMailid() + "'";
-
+                logger.info(Common.EXECUTING_SQL +sql);
+                
                 List<Map<String, Object>> tempList = sqlManager.renderSelectQuery(sql);
 
                 authenticationResponse.setUsername((String) tempList.get(0).get("username"));
@@ -227,6 +235,7 @@ public class UserUtility extends BaseController {
     public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest getUserDetailsRequest) throws Exception {
         GetUserDetailsResponse getUserDetailsResponse = new GetUserDetailsResponse();
         String sql = sqlUtility.getUserDetails(getUserDetailsRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         List<Map<String, Object>> userDetails = sqlManager.renderSelectQuery(sql);
         getUserDetailsResponse.setUserDetails(userDetails);
         return getUserDetailsResponse;
@@ -235,40 +244,39 @@ public class UserUtility extends BaseController {
     public AddUserReviewResponse addUserReview(AddUserReviewRequest addUserReviewRequest) throws Exception {
         AddUserReviewResponse addUserReviewResponse = new AddUserReviewResponse();
         addUserReviewResponse.setMailid(addUserReviewRequest.getMailid());
-        HashMap<String, Object> status_map = new HashMap<>();
         String sql = sqlUtility.addReviewSql(addUserReviewRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         sqlManager.renderInsertQuery(sql);
         int stars_given = addUserReviewRequest.getStars();
         if (stars_given >= 3) {
             addUserReviewResponse.setStatus(Common.ABOVE_THREE);
-            status_map.put(Common.STATUS, Common.ABOVE_THREE);
         } else {
             addUserReviewResponse.setStatus(Common.BELOW_THREE);
-            status_map.put(Common.STATUS, Common.BELOW_THREE);
         }
         return addUserReviewResponse;
     }
 
     public boolean sessionExists(String mailid) throws Exception {
-        HashMap<String, Object> user_map = new HashMap<>();
         String sql = sqlUtility.sessionExistsSql(mailid);
+        logger.info(Common.EXECUTING_SQL +sql);
         List<Map<String, Object>> session_count_map = sqlManager.renderSelectQuery(sql);
         if (session_count_map.size() > 0) {
-            logger.info("Session Exists : " + true);
+            logger.info(Common.SESSION_EXISTS + true);
             return true;
         } else {
-            logger.info("Session Exists : " + false);
+            logger.info(Common.SESSION_EXISTS + false);
             return false;
         }
     }
 
 
-    public String getAllDonorsCount() throws Exception {
-        HashMap<String, Object> map = new HashMap<>();
+    public GetAllDonorsCountResponse getAllDonorsCount(GetAllDonorsCountRequest getAllDonorsCountRequest) throws Exception {
+        GetAllDonorsCountResponse getAllDonorsCountResponse = new GetAllDonorsCountResponse();
         String sql = sqlUtility.getAllDonorsCount();
+        logger.info(Common.EXECUTING_SQL +sql);
         List<Map<String, Object>> donor_count_map = sqlManager.renderSelectQuery(sql);
-        map.put(Common.STATUS, donor_count_map.get(0).get(Common.COUNT));
-        return mapper.writeValueAsString(map);
+        getAllDonorsCountResponse.setCount(donor_count_map.get(0).get(Common.COUNT).toString());
+        return getAllDonorsCountResponse;
     }
 
     public GetBloodGroupsResponse getAllBloodGroupsList(GetBloodGroupsRequest getBloodGroupsRequest) throws Exception {
@@ -357,8 +365,14 @@ public class UserUtility extends BaseController {
         UpdateForgotPasswordResponse updateForgotPasswordResponse = new UpdateForgotPasswordResponse();
         updateForgotPasswordResponse.setMailid(updateForgotPasswordRequest.getMailid());
         String sql = sqlUtility.updateForgotPasswordSql(updateForgotPasswordRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
         sqlManager.renderInsertQuery(sql);
         updateForgotPasswordResponse.setStatus(Common.UPDATED_SUCCESFULLY);
         return updateForgotPasswordResponse;
+    }
+
+    public ContactUsResponse contactUsViaMail(ContactUsRequest contactUsRequest) throws JsonProcessingException, UnirestException {
+        MailUtility mailUtility = new MailUtility();
+        return mailUtility.contactUsMail(contactUsRequest);
     }
 }

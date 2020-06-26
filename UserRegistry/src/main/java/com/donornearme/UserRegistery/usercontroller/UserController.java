@@ -63,7 +63,8 @@ public class UserController extends BaseController {
         return userUtility.updateforgotPassword(updateForgotPasswordRequest);
     }
 
-
-
-
+    @RequestMapping(method = RequestMethod.POST, value = "/contactus")
+    public ContactUsResponse contactUs(@RequestBody ContactUsRequest contactUsRequest) throws Exception {
+        return userUtility.contactUsViaMail(contactUsRequest);
+    }
 }

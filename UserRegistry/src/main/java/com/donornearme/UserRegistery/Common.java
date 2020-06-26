@@ -73,6 +73,8 @@ public class Common {
     public static final String FETCHING_REQUESTED_DETAILS = "Fetching Requested Details..";
     public static final String OTP_VALIDATION_SUBJECT = "Donor Near Me - OTP Verification";
     public static final String OTP_SEND_MESSAGE = "message";
+    public static final String EXECUTING_SQL ="Executing SQL : ";
+    public static final String SESSION_EXISTS = "Session Exists : ";
 
 //    Reviews
     public static final String ABOVE_THREE = "Thankyou. Always happy to help you!!";
