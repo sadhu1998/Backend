@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(value = "Additional", description = "Some Additional API's")
-public class AddtionalController extends BaseController {
-    protected static final Logger logger = LogManager.getLogger(AddtionalController.class);
+public class Extras extends BaseController {
+    protected static final Logger logger = LogManager.getLogger(Extras.class);
     private UserUtility userUtility = new UserUtility();
 
     @RequestMapping(method = RequestMethod.POST, value = "/authenticate")

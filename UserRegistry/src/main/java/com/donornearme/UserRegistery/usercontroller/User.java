@@ -11,9 +11,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Api(value = "users", description = "Endpoint for user management")
-public class UserController extends BaseController {
-    private static final Logger logger = LogManager.getLogger(UserController.class);
+@Api(value = "users", description = "API's for controlling user")
+public class User extends BaseController {
+    private static final Logger logger = LogManager.getLogger(User.class);
     private UserUtility userUtility = new UserUtility();
     private MailUtility mailUtility = new MailUtility();
 
@@ -33,13 +33,8 @@ public class UserController extends BaseController {
         return userUtility.validateOtp(validateOTPRequest);
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value = "/forgotpassword")
-//    public ForgotPasswordResponse forgetPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws Exception {
-//        return mailUtility.sendOTPForgotPassword(forgotPasswordRequest);
-//    }
-
     @PutMapping("/updateUser")
-    public UpdateUserResponse updateUser(@RequestParam(required = true) String mailid, @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
+    public UpdateUserResponse updateUser(String mailid, @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
         return userUtility.updataUser(mailid, updateUserRequest);
     }
 
@@ -59,7 +54,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/updatepassword")
-    public UpdateForgotPasswordResponse updateForgottenPassword(@RequestBody UpdateForgotPasswordRequest updateForgotPasswordRequest) throws Exception {
+    public UpdateForgotPasswordResponse updateForgottenPassword(@RequestBody UpdateForgotPasswordRequest updateForgotPasswordRequest) {
         return userUtility.updateforgotPassword(updateForgotPasswordRequest);
     }
 
@@ -67,4 +62,15 @@ public class UserController extends BaseController {
     public ContactUsResponse contactUs(@RequestBody ContactUsRequest contactUsRequest) throws Exception {
         return userUtility.contactUsViaMail(contactUsRequest);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/validatemailvialink")
+    public ValidateUserViaLinkResponse validateMailViaLink(ValidateUserViaLinkRequest validateUserViaLinkRequest) throws Exception {
+        return userUtility.validateOtpViaEmail(validateUserViaLinkRequest);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/checkotpstatus")
+    public CheckOtpStatusResponse validateMailViaLink(CheckOtpStatusRequest checkOtpStatusRequest) throws Exception {
+        return userUtility.checkOtpStatus(checkOtpStatusRequest);
+    }
+
 }

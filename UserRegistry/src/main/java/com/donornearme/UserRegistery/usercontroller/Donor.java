@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(value = "Donor fetcher", description = "Fetch donor details")
-public class DonorController extends BaseController {
-    private static final Logger logger = LogManager.getLogger(UserController.class);
+@Api(value = "Donor fetcher", description = "API's for donors")
+public class Donor extends BaseController {
+    private static final Logger logger = LogManager.getLogger(User.class);
     private final UserUtility userUtility = new UserUtility();
     MailUtility mailUtility = new MailUtility();
 

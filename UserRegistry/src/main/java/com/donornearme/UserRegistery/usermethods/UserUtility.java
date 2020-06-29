@@ -375,4 +375,39 @@ public class UserUtility extends BaseController {
         MailUtility mailUtility = new MailUtility();
         return mailUtility.contactUsMail(contactUsRequest);
     }
+
+    public ValidateUserViaLinkResponse validateOtpViaEmail(ValidateUserViaLinkRequest validateUserViaLinkRequest) {
+        ValidateUserViaLinkResponse validateUserViaLinkResponse = new ValidateUserViaLinkResponse();
+        validateUserViaLinkResponse.setMailid(validateUserViaLinkRequest.getMailid());
+        String sql = sqlUtility.validateOtpSqlMail(validateUserViaLinkRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
+        List<Map<String, Object>> otp_map = sqlManager.renderSelectQuery(sql);
+        if (otp_map.size() == 0) {
+            validateUserViaLinkResponse.setStatus("Please Wait!");
+            return validateUserViaLinkResponse;
+        }
+        String otp_from_table = (String) otp_map.get(0).get("otp");
+        logger.info(Common.ORIGINAL_OTP_IS + otp_from_table);
+        logger.info(Common.OTP_ENTERED_BY_USER + validateUserViaLinkRequest.getOtp());
+        if (validateUserViaLinkRequest.getOtp().equals(otp_from_table)) {
+            sql = "update users.otp_validation set status = 'VALIDATED' where mailid = '" + validateUserViaLinkRequest.getMailid() + "';";
+            logger.info(Common.EXECUTING_SQL +sql);
+            sqlManager.renderInsertQuery(sql);
+            sql = "update users.details set verification_status = 'VALIDATED' where mailid = '" + validateUserViaLinkRequest.getMailid() + "';";
+            logger.info(Common.EXECUTING_SQL +sql);
+            sqlManager.renderInsertQuery(sql);
+            validateUserViaLinkResponse.setStatus(Common.OTP_VERIFIED_SUCCESFULLY);
+        } else {
+            validateUserViaLinkResponse.setError(Common.WRONG_OTP_ENTERED_MSG);
+        }
+        return validateUserViaLinkResponse;
+
+    }
+
+    public CheckOtpStatusResponse checkOtpStatus(CheckOtpStatusRequest checkOtpStatusRequest) {
+        CheckOtpStatusResponse checkOtpStatusResponse = new CheckOtpStatusResponse();
+        checkOtpStatusResponse.setMailid(checkOtpStatusRequest.getMailid());
+        
+        return checkOtpStatusResponse;
+    }
 }

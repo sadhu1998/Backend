@@ -26,12 +26,10 @@ public class Common {
     public static final String PATH_MAPPING = "/";
 
     //    Templates Common
-    public static final String STRING_TEMPLATES_PATH = "/home/sadhvik/userregistry/resources/StringTemplates";
     public static final String ERROR = "error";
     public static final Character ST_DELIMITER = '$';
     public static final String DATA = "data";
     public static final String STATUS = "status";
-    public static final String BASIC_TEMPLATE = "basic_templates.stg";
     public static final String COUNT = "count";
     public static final String LIST_OF_MAP = "listofmap";
     public static final String LIST = "list";

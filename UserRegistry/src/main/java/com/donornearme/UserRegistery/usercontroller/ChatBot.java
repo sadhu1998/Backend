@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(value = "Chatbot Control", description = "Talk to Bot")
-public class ChatBotController extends BaseController {
-    private static final Logger logger = LogManager.getLogger(AreaController.class);
+public class ChatBot extends BaseController {
+    private static final Logger logger = LogManager.getLogger(Areas.class);
     private final UserUtility userUtility = new UserUtility();
 
     @RequestMapping(method = RequestMethod.POST, value = "/getbotreply")

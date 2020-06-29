@@ -18,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -31,7 +30,6 @@ public class MailUtility extends BaseController {
     public SendOTPToMailResponse sendOTP(SendOTPToMailRequest sendOTPToMailRequest) throws Exception {
         SendOTPToMailResponse sendOTPToMailResponse = new SendOTPToMailResponse();
         sendOTPToMailResponse.setMailid(sendOTPToMailRequest.getMailid());
-        HashMap<String, Object> status_map = new HashMap<>();
         logger.info("Sending OTP to registered Mail");
 //        if (userExists(sendOTPToMailRequest.getMailid())) {
 //            status_map.put(Common.ERROR, "Provided mailid " + sendOTPToMailRequest.getMailid() + "already exists. Please login");
@@ -48,7 +46,8 @@ public class MailUtility extends BaseController {
         body_map.put(Common.TO_MAIL, mailid);
         body_map.put(Common.SUBJECT, Common.OTP_VALIDATION_SUBJECT);
         body_map.put(Common.OTP_SEND_MESSAGE, otp + " is the OTP for verifying mail_id for donornearme." +
-                "Thanks for becoming a member. Thankyou! Hope we help you! ");
+                "Thanks for becoming a member. Thankyou! Hope we help you!" + "" +
+                "You can also click on the link below to validate your email " + generateValidateMailLink(sendOTPToMailRequest, otp));
         body_map.put("alias", "sadhu1998@gmail.com");
 
         HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
@@ -62,12 +61,10 @@ public class MailUtility extends BaseController {
                     "values ('" + sendOTPToMailResponse.getMailid() + "','" + otp + "','initiated',now());";
             sqlManager.renderInsertQuery(sql);
             logger.info("OTP sent successfully...");
-            status_map.put(Common.STATUS, "Mail has been sent to " + mailid + " succesfully.");
-            sendOTPToMailResponse.setStatus("Mail has been sent to " + mailid + " succesfully.");
         } else {
             logger.error("Failed to send OTP");
-            sendOTPToMailResponse.setStatus("Mail has been sent to " + mailid + " succesfully.");
         }
+        sendOTPToMailResponse.setStatus("Mail has been sent to " + mailid + " succesfully.");
 
         return sendOTPToMailResponse;
     }
@@ -77,23 +74,9 @@ public class MailUtility extends BaseController {
         return String.format("%06d", rnd.nextInt(999999));
     }
 
-    public boolean userExists(String mailid) throws Exception {
-        String sql = "select * from users.details where mailid = " + "'" + mailid + "'" + " and verification_status = 'VALIDATED';";
-        List<Map<String, Object>> count_map = sqlManager.renderSelectQuery(sql);
-        if (count_map.size() > 0) {
-            logger.info("User Exists : " + true);
-            return true;
-        } else {
-            logger.info("User Exists : " + false);
-            return false;
-        }
-    }
-
-
     public SendMailToDonorResponse sendMailToDonor(SendMailToDonorRequest sendMailToDonorRequest) throws JSONException, JsonProcessingException, UnirestException {
         SendMailToDonorResponse sendMailToDonorResponse = new SendMailToDonorResponse();
         sendMailToDonorResponse.setMailid(sendMailToDonorRequest.getMailid());
-        HashMap<String, Object> status_map = new HashMap<>();
         HashMap<String, Object> mail_to_donor_map = new HashMap<>();
 
         mail_to_donor_map.put(Common.FROM_MAIL, user);
@@ -115,11 +98,9 @@ public class MailUtility extends BaseController {
         if (response.getStatus() == 200) {
             logger.info("Mail sent successfully from " + user + " to " + mail_to_donor_map.get(Common.TO_MAIL));
             sendMailToDonorResponse.setStatus("Mail has been sent succesfully.");
-            status_map.put(Common.STATUS, "Mail has been sent succesfully.");
         } else {
             sendMailToDonorResponse.setStatus("Failed to send Mail");
             logger.error("Failed to send Mail");
-            status_map.put(Common.ERROR, "Failed to send Mail");
         }
         return sendMailToDonorResponse;
     }
@@ -135,7 +116,7 @@ public class MailUtility extends BaseController {
         mail_to_donor_map.put("alias", "sadhu1998@gmail.com");
         mail_to_donor_map.put(Common.TO_MAIL, user);
 
-        mail_to_donor_map.put(Common.OTP_SEND_MESSAGE, contactUsSubject(contactUsRequest) );
+        mail_to_donor_map.put(Common.OTP_SEND_MESSAGE, contactUsSubject(contactUsRequest));
 
         HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
                 .header(Common.CONTENT_TYPE, Common.CONTEST_JSON)
@@ -145,15 +126,22 @@ public class MailUtility extends BaseController {
 
         if (response.getStatus() == 200) {
             contactUsResponse.setStatus("We will reach you shortly");
-            return contactUsResponse;
         } else {
             contactUsResponse.setError("We are currently busy.");
             logger.error("Failed to send Mail");
-            return contactUsResponse;
         }
+        return contactUsResponse;
     }
 
-    public String contactUsSubject(ContactUsRequest contactUsRequest){
-        return "Hi, I am "+contactUsRequest.getUsername()+"We want to contact You. This is my email :" +contactUsRequest.getMailid()+" This is my Phone Number :"+contactUsRequest.getPhonenumber();
+    public String contactUsSubject(ContactUsRequest contactUsRequest) {
+        return "Hi, I am " + contactUsRequest.getUsername() + "We want to contact You. This is my email :" + contactUsRequest.getMailid() + " This is my Phone Number :" + contactUsRequest.getPhonenumber();
+    }
+
+    public String generateValidateMailLink(SendOTPToMailRequest sendOTPToMailRequest, String otp) {
+        String mailid = "mailid="+sendOTPToMailRequest.getMailid();
+        String otptext = "otp="+otp;
+        String baseurl = "http://localhost:8080/validatemailvialink?";
+        logger.info("Verification Link : "+baseurl+mailid+"&"+otptext);
+        return baseurl+mailid+"&"+otptext;
     }
 }

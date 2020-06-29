@@ -95,4 +95,12 @@ public class SqlUtility {
     public String sessionExistsSql(String mailid) {
         return "select * from users.login_sessions ls where CURRENT_TIMESTAMP - start_ts < INTERVAL '30' MINUTE and mailid = '"+mailid+"';";
     }
+
+    public String validateOtpSqlMail(ValidateUserViaLinkRequest validateUserViaLinkRequest) {
+        return "select otp from users.otp_validation where mailid = '" + validateUserViaLinkRequest.getMailid() + "' order by crt_ts limit 1;";
+    }
+
+    public String getOtpStatus(CheckOtpStatusRequest checkOtpStatusRequest) {
+        return "select status from users.otp_validation where mailid = '" + checkOtpStatusRequest.getMailid() + "' order by crt_ts limit 1;";
+    }
 }

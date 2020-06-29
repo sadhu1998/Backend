@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(value = "location", description = "Get Details of Locations")
-public class AreaController extends BaseController {
-    private static final Logger logger = LogManager.getLogger(AreaController.class);
+@Api(value = "location", description = "API's related to Locations")
+public class Areas extends BaseController {
+    private static final Logger logger = LogManager.getLogger(Areas.class);
     private final UserUtility userUtility = new UserUtility();
 
 
