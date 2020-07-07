@@ -1,7 +1,5 @@
 package com.epsilon.donornearme.controllers;
 
-import com.donornearme.dnm.models.request.*;
-import com.donornearme.dnm.models.response.*;
 import com.epsilon.donornearme.operations.MailOperation;
 import com.epsilon.donornearme.operations.UserOperation;
 import com.epsilon.donornearme.models.request.*;
@@ -79,6 +77,17 @@ public class UserController extends BaseController {
     public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest getUserDetailsRequest) throws Exception {
         return userOperation.getUserDetails(getUserDetailsRequest);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/userquery")
+    public UserQueryResponse userQuery(@RequestBody UserQueryRequest userQueryRequest) throws Exception {
+        return userOperation.userQuery(userQueryRequest);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/reviewsubmitstatus")
+    public ReviewSubmittedStatusResponse getReviewStatus(ReviewSubmittedStatusRequest reviewSubmittedStatusRequest) throws Exception {
+        return userOperation.getReviewStatus(reviewSubmittedStatusRequest);
+    }
+
 
 
 }

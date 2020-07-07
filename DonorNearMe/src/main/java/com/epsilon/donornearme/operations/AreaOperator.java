@@ -3,8 +3,6 @@ package com.epsilon.donornearme.operations;
 import com.epsilon.donornearme.Common;
 import com.epsilon.donornearme.sqls.AreaQueries;
 import com.epsilon.donornearme.utilities.SqlRendererUtility;
-import com.donornearme.dnm.models.request.*;
-import com.donornearme.dnm.models.response.*;
 import com.epsilon.donornearme.models.request.*;
 import com.epsilon.donornearme.models.response.*;
 import org.apache.logging.log4j.LogManager;

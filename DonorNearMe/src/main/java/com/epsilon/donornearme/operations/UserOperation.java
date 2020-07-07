@@ -2,8 +2,6 @@ package com.epsilon.donornearme.operations;
 
 import com.epsilon.donornearme.Common;
 import com.epsilon.donornearme.controllers.BaseController;
-import com.donornearme.dnm.models.request.*;
-import com.donornearme.dnm.models.response.*;
 import com.epsilon.donornearme.sqls.UserQueries;
 import com.epsilon.donornearme.models.request.*;
 import com.epsilon.donornearme.models.response.*;
@@ -223,5 +221,19 @@ public class UserOperation extends BaseController {
         List<Map<String, Object>> checkmap = sqlRenderer.runSelectQuery(sql);
         checkOtpStatusResponse.setStatus((String) checkmap.get(0).get("status"));
         return checkOtpStatusResponse;
+    }
+
+    public UserQueryResponse userQuery(UserQueryRequest userQueryRequest) throws JsonProcessingException, UnirestException {
+        MailOperation mailOperation = new MailOperation();
+        return mailOperation.userQueryMail(userQueryRequest);
+    }
+
+    public ReviewSubmittedStatusResponse getReviewStatus(ReviewSubmittedStatusRequest reviewSubmittedStatusRequest) {
+        ReviewSubmittedStatusResponse reviewSubmittedStatusResponse = new ReviewSubmittedStatusResponse();
+        reviewSubmittedStatusResponse.setMailid(reviewSubmittedStatusRequest.getMailid());
+        String sql = userQueries.getReviewStatusSql(reviewSubmittedStatusRequest);
+        List<Map<String,Object>> statusMap = sqlRenderer.runSelectQuery(sql);
+        reviewSubmittedStatusResponse.setStatus((String) statusMap.get(0).get("status"));
+        return reviewSubmittedStatusResponse;
     }
 }

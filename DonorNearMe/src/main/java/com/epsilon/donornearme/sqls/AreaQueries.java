@@ -1,6 +1,5 @@
 package com.epsilon.donornearme.sqls;
 
-import com.donornearme.dnm.models.request.*;
 import com.epsilon.donornearme.models.request.*;
 
 public class AreaQueries {

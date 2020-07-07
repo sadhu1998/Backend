@@ -2,6 +2,8 @@ package com.epsilon.donornearme.operations;
 
 import com.epsilon.donornearme.Common;
 import com.epsilon.donornearme.controllers.BaseController;
+import com.epsilon.donornearme.models.request.UserQueryRequest;
+import com.epsilon.donornearme.models.response.UserQueryResponse;
 import com.epsilon.donornearme.utilities.SqlRendererUtility;
 import com.epsilon.donornearme.models.request.ContactUsRequest;
 import com.epsilon.donornearme.models.request.SendMailToDonorRequest;
@@ -145,5 +147,36 @@ public class MailOperation extends BaseController {
         String baseurl = "http://localhost:8080/validatemailvialink?";
         logger.info("Verification Link : " + baseurl + mailid + "&" + otptext);
         return baseurl + mailid + "&" + otptext;
+    }
+
+    public UserQueryResponse userQueryMail(UserQueryRequest userQueryRequest) throws JsonProcessingException, UnirestException {
+        UserQueryResponse userQueryResponse = new UserQueryResponse();
+        userQueryResponse.setMailid(userQueryRequest.getMailid());
+        HashMap<String, Object> mail_to_donor_map = new HashMap<>();
+
+        mail_to_donor_map.put(Common.FROM_MAIL, user);
+        mail_to_donor_map.put(Common.FROM_MAIL_PASSWORD, password);
+        mail_to_donor_map.put(Common.SUBJECT, userQueryRequest.getSubject());
+        mail_to_donor_map.put("alias", "sadhu1998@gmail.com");
+        mail_to_donor_map.put(Common.TO_MAIL, user);
+
+        mail_to_donor_map.put(Common.OTP_SEND_MESSAGE, userQueryRequest.getQuery());
+
+        HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
+                .header(Common.CONTENT_TYPE, Common.CONTEST_JSON)
+                .header(Common.CACHE_CONTROL, Common.NO_CACHE)
+                .body(mapper.writeValueAsString(mail_to_donor_map))
+                .asString();
+
+        if (response.getStatus() == 200) {
+            logger.info("Mail Sent succesfully");
+            userQueryResponse.setStatus("We will reach you shortly");
+        } else {
+            logger.info("Failed to send Mail");
+            userQueryResponse.setError("We are currently busy.");
+            logger.error("Failed to send Mail");
+        }
+        return userQueryResponse;
+
     }
 }

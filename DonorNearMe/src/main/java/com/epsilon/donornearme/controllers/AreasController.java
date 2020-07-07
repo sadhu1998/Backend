@@ -1,7 +1,5 @@
 package com.epsilon.donornearme.controllers;
 
-import com.donornearme.dnm.models.request.*;
-import com.donornearme.dnm.models.response.*;
 import com.epsilon.donornearme.operations.AreaOperator;
 import com.epsilon.donornearme.models.request.*;
 import com.epsilon.donornearme.models.response.*;

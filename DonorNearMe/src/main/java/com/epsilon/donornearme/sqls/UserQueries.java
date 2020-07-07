@@ -1,6 +1,5 @@
 package com.epsilon.donornearme.sqls;
 
-import com.donornearme.dnm.models.request.*;
 import com.epsilon.donornearme.models.request.*;
 
 public class UserQueries {
@@ -66,5 +65,7 @@ public class UserQueries {
         return "select otp from users.otp_validation where mailid = '" + validateUserViaLinkRequest.getMailid() + "' order by crt_ts limit 1;";
     }
 
-
+    public String getReviewStatusSql(ReviewSubmittedStatusRequest reviewSubmittedStatusRequest) {
+        return "select case when (select count(mailid) from users.reviews where mailid= '"+reviewSubmittedStatusRequest.getMailid()+"')>0 then 'true' else 'false' end as status";
+    }
 }
