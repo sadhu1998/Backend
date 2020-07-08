@@ -11,7 +11,7 @@ public class DonorQueries {
     }
 
     public String getAvailableDonorsList(GetDonorsAvailableRequest getDonorsAvailableRequest) {
-        return "select * from users.details where bloodgroup = '" + getDonorsAvailableRequest.getBloodgroup() + "' and country = '" + getDonorsAvailableRequest.getCountry() + "' and town = '" + getDonorsAvailableRequest.getTown() + "' and district = '" + getDonorsAvailableRequest.getDistrict() + "' and city = '" + getDonorsAvailableRequest.getCity() + "' and state = '" + getDonorsAvailableRequest.getState() + "'";
+        return "select * from users.details where bloodgroup = '"+getDonorsAvailableRequest.getBloodgroup()+"' and country = '"+getDonorsAvailableRequest.getCountry()+"' and town = '"+getDonorsAvailableRequest.getTown()+"' and district = '"+getDonorsAvailableRequest.getDistrict()+"' and city = '"+getDonorsAvailableRequest.getCity()+"' and state = '"+getDonorsAvailableRequest.getState()+"'";
     }
 
     public String getBloodGroupsListSql(GetBloodGroupsRequest getBloodGroupsRequest) {
