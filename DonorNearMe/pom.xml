@@ -10,7 +10,6 @@
 	</parent>
 	<groupId>com.donornearme</groupId>
 	<artifactId>DonorNearMe</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>DonorNearMe</name>
 	<description>Find donors near me</description>
 

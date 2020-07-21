@@ -78,6 +78,13 @@ public class UserController extends BaseController {
         return "Welcome";
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/test")
+    public TestResponse userQuery(@RequestBody TestRequest testRequest) throws Exception {
+        TestResponse testResponse = new TestResponse();
+        testResponse.setUser(testRequest.getUser());
+        return testResponse;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "getdetails/user")
     public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest getUserDetailsRequest) throws Exception {
         return userOperation.getUserDetails(getUserDetailsRequest);

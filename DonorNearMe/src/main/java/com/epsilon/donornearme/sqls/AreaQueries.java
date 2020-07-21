@@ -5,7 +5,7 @@ import com.epsilon.donornearme.models.request.*;
 public class AreaQueries {
 
     public String getStatesListSql(GetStatesListRequest getStatesListRequest) {
-        return "select  distinct state as states from users.locations where country = '"+getStatesListRequest.getCountry()+"' order by state;";
+        return "select distinct(state) as states from users.locations where country = '"+getStatesListRequest.getCountry()+"' order by state;";
     }
 
     public String getDistrictsListSql(GetDistrictsListRequest getDistrictsListRequest) {
