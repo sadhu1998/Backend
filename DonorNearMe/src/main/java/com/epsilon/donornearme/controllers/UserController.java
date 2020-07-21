@@ -73,6 +73,11 @@ public class UserController extends BaseController {
         return userOperation.checkOtpStatus(checkOtpStatusRequest);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/test")
+    public String testingApi() {
+        return "Welcome";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "getdetails/user")
     public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest getUserDetailsRequest) throws Exception {
         return userOperation.getUserDetails(getUserDetailsRequest);
