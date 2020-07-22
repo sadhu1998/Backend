@@ -4,7 +4,7 @@ import com.epsilon.donornearme.models.request.*;
 
 public class UserQueries {
     public String userExistsSql(String mailid) {
-        return "select * from users.details where mailid = " + "'" + mailid + "'" + " and verification_status = 'VALIDATED';";
+        return "select * from users.otp_validation where mailid = " + "'" + mailid + "'" + " and verification_status = 'VALIDATED';";
     }
 
     public String finishedOTPValidationSql(String mailid) {
@@ -12,11 +12,11 @@ public class UserQueries {
     }
 
     public String addUserToDbDetailsSql(AddUserRequest addUserRequest) {
-        return "insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid , verification_status, pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getState() + "','" + addUserRequest.getMailid() + "','FALSE', " + addUserRequest.getPincode() + ");";
+        return "insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid ,  pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getState() + "','" + addUserRequest.getMailid() + "','" + addUserRequest.getPincode() + ");";
     }
 
     public String addUserToDbCredssSql(AddUserRequest addUserRequest) {
-        return  "insert into users.creds(username,password,mailid) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPassword() + "','" + addUserRequest.getPassword() + "');";
+        return  "insert into users.creds(username,password,mailid) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPassword() + "','" + addUserRequest.getMailid() + "');";
     }
 
     public String addUserToDbAlertsSql(AddUserRequest addUserRequest) {
