@@ -29,7 +29,7 @@ public class UserQueries {
 
     public String modifyBloodGroupCountTable(AddUserRequest addUserRequest, boolean exists) {
         if (exists) {
-            return "update users.blood_groups_count set count = (select count from users.blood_groups_count where blood_group = '" + addUserRequest.getBloodgroup() + " and pincode = '"+addUserRequest.getPincode()+"')+1 where blood_group = '" + addUserRequest.getBloodgroup() + "' and pincode = '" + addUserRequest.getPincode() + "';";
+            return "update users.blood_groups_count set count = (select count from users.blood_groups_count where blood_group = '" + addUserRequest.getBloodgroup() + "' and pincode = '"+addUserRequest.getPincode()+"')+1 where blood_group = '" + addUserRequest.getBloodgroup() + "' and pincode = '" + addUserRequest.getPincode() + "';";
         } else {
             return "insert into users.blood_groups_count (blood_group,count,pincode) values ('" + addUserRequest.getBloodgroup() + "',1,'" + addUserRequest.getPincode() + "');";
         }
