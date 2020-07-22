@@ -53,7 +53,15 @@ public class UserOperation extends BaseController {
             addUserResponse.setError(Common.VERIFY_OTP_FIRST);
         } else {
             logger.info(Common.ADDING_USER);
-            String sql = userQueries.addUserToDbSql(addUserRequest);
+            String sql = userQueries.addUserToDbDetailsSql(addUserRequest);
+            logger.info(Common.EXECUTING_SQL + sql);
+            sqlRenderer.runInsertQuery(sql);
+
+            sql = userQueries.addUserToDbCredssSql(addUserRequest);
+            logger.info(Common.EXECUTING_SQL + sql);
+            sqlRenderer.runInsertQuery(sql);
+
+            sql = userQueries.addUserToDbAlertsSql(addUserRequest);
             logger.info(Common.EXECUTING_SQL + sql);
             sqlRenderer.runInsertQuery(sql);
 

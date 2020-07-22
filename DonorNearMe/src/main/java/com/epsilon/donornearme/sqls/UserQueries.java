@@ -11,10 +11,16 @@ public class UserQueries {
         return "select * from users.otp_validation ov where mailid = '" + mailid + "' and status = 'VALIDATED';";
     }
 
-    public String addUserToDbSql(AddUserRequest addUserRequest) {
-        return "insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid , verification_status, pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getState() + "','" + addUserRequest.getMailid() + "','FALSE', " + addUserRequest.getPincode() + ");" + "" +
-                "insert into users.creds(username,password,mailid) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPassword() + "','" + addUserRequest.getPassword() + "');" + "" +
-                "insert into users.alerts(mailid,mail_notification,sms_notification) values" + "('" + addUserRequest.getMailid() + "','" + addUserRequest.getMail_notification() + "','" + addUserRequest.getSms_notification() + "');";
+    public String addUserToDbDetailsSql(AddUserRequest addUserRequest) {
+        return "insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid , verification_status, pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getState() + "','" + addUserRequest.getMailid() + "','FALSE', " + addUserRequest.getPincode() + ");";
+    }
+
+    public String addUserToDbCredssSql(AddUserRequest addUserRequest) {
+        return  "insert into users.creds(username,password,mailid) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPassword() + "','" + addUserRequest.getPassword() + "');";
+    }
+
+    public String addUserToDbAlertsSql(AddUserRequest addUserRequest) {
+        return "insert into users.alerts(mailid,mail_notification,sms_notification) values" + "('" + addUserRequest.getMailid() + "','" + addUserRequest.getMail_notification() + "','" + addUserRequest.getSms_notification() + "');";
     }
 
     public String getBloodDonorCountWithPincode(AddUserRequest addUserRequest) {
