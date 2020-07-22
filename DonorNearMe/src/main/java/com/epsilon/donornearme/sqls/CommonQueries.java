@@ -4,7 +4,7 @@ import com.epsilon.donornearme.models.request.AuthenticationRequest;
 
 public class CommonQueries {
     public String userExistsSql(String mailid) {
-        return "select * from users.details where mailid = " + "'" + mailid + "'" + " and verification_status = 'VALIDATED';";
+        return "select * from users.otp_validation where mailid = " + "'" + mailid + "'" + " and status = 'VALIDATED';";
     }
 
 
