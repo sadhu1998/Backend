@@ -47,9 +47,7 @@ public class UserOperation extends BaseController {
     public AddUserResponse addUserToDb(AddUserRequest addUserRequest) throws Exception {
         AddUserResponse addUserResponse = new AddUserResponse();
         UserOperation userUtility = new UserOperation();
-        if (userExists(addUserRequest.getMailid())) {
-            addUserResponse.setError(Common.USER_ALREADY_EXISTS);
-        } else if (!userUtility.finishedOtpValidation(addUserRequest.getMailid())) {
+         if (!userUtility.finishedOtpValidation(addUserRequest.getMailid())) {
             addUserResponse.setError(Common.VERIFY_OTP_FIRST);
         } else {
             logger.info(Common.ADDING_USER);
