@@ -28,8 +28,8 @@ public class MailOperation extends BaseController {
     protected static final Logger logger = LogManager.getLogger(MailOperation.class);
     SqlRendererUtility sqlRenderer = new SqlRendererUtility();
     ObjectMapper mapper = new ObjectMapper();
-    String user = "donornearme@gmail.com";
-    String password = "A*1sadhvik";
+    String user = "sadhu1998@gmail.com";
+    String password = "23021998";
 
     public SendOTPToMailResponse sendOTP(SendOTPToMailRequest sendOTPToMailRequest) throws Exception {
         SendOTPToMailResponse sendOTPToMailResponse = new SendOTPToMailResponse();
