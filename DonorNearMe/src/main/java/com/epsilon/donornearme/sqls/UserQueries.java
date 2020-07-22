@@ -12,7 +12,7 @@ public class UserQueries {
     }
 
     public String addUserToDbSql(AddUserRequest addUserRequest) {
-        return "insert into users.details(user_id, username , phonenumber , bloodgroup , town , district , city , state , country , mailid , verification_status, pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getState() + "','" + addUserRequest.getMailid() + "','FALSE', " + addUserRequest.getPincode() + ");" + "" +
+        return "insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid , verification_status, pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getState() + "','" + addUserRequest.getMailid() + "','FALSE', " + addUserRequest.getPincode() + ");" + "" +
                 "insert into users.creds(username,password,mailid) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPassword() + "','" + addUserRequest.getPassword() + "');" + "" +
                 "insert into users.alerts(mailid,mail_notification,sms_notification) values" + "('" + addUserRequest.getMailid() + "','" + addUserRequest.getMail_notification() + "','" + addUserRequest.getSms_notification() + "');";
     }
