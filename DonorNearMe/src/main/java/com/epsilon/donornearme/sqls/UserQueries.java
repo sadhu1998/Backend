@@ -12,7 +12,7 @@ public class UserQueries {
     }
 
     public String addUserToDbDetailsSql(AddUserRequest addUserRequest) {
-        return "insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid ,  pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getState() + "','" + addUserRequest.getMailid() + "','" + addUserRequest.getPincode() + ");";
+        return "insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid ,  pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getState() + "','" + addUserRequest.getMailid() + "','" + addUserRequest.getPincode() + "');";
     }
 
     public String addUserToDbCredssSql(AddUserRequest addUserRequest) {
