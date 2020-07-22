@@ -54,20 +54,25 @@ public class MailOperation extends BaseController {
                 "You can also click on the link below to validate your email " + generateValidateMailLink(sendOTPToMailRequest, otp));
         body_map.put("alias", "sadhu1998@gmail.com");
 
-        HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
-                .header(Common.CONTENT_TYPE, Common.CONTEST_JSON)
-                .header(Common.CACHE_CONTROL, Common.NO_CACHE)
-                .body(mapper.writeValueAsString(body_map))
-                .asString();
+//        HttpResponse<String> response = Unirest.post(Common.EMAIL_ENDPOINT)
+//                .header(Common.CONTENT_TYPE, Common.CONTEST_JSON)
+//                .header(Common.CACHE_CONTROL, Common.NO_CACHE)
+//                .body(mapper.writeValueAsString(body_map))
+//                .asString();
 
-        if (response.getStatus() == 200) {
-            String sql = "insert into users.otp_validation (mailid , otp, status, crt_ts) " +
-                    "values ('" + sendOTPToMailResponse.getMailid() + "','" + otp + "','initiated',now());";
-            sqlRenderer.runInsertQuery(sql);
-            logger.info("OTP sent successfully...");
-        } else {
-            logger.error("Failed to send OTP");
-        }
+        String sql = "insert into users.otp_validation (mailid , otp, status, crt_ts) " +
+                "values ('" + sendOTPToMailResponse.getMailid() + "','" + otp + "','initiated',now());";
+        sqlRenderer.runInsertQuery(sql);
+        logger.info("OTP sent successfully...");
+
+//        if (response.getStatus() == 200) {
+//            String sql = "insert into users.otp_validation (mailid , otp, status, crt_ts) " +
+//                    "values ('" + sendOTPToMailResponse.getMailid() + "','" + otp + "','initiated',now());";
+//            sqlRenderer.runInsertQuery(sql);
+//            logger.info("OTP sent successfully...");
+//        } else {
+//            logger.error("Failed to send OTP");
+//        }
         sendOTPToMailResponse.setStatus("Mail has been sent to " + mailid + " succesfully.");
 
         return sendOTPToMailResponse;
