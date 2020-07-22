@@ -66,8 +66,11 @@ public class UserOperation extends BaseController {
             sqlRenderer.runInsertQuery(sql);
 
             sql = userQueries.getBloodDonorCountWithPincode(addUserRequest);
+            logger.info(Common.EXECUTING_SQL + sql);
             List<Map<String, Object>> donorcount_map = sqlRenderer.runSelectQuery(sql);
+
             sql = userQueries.modifyBloodGroupCountTable(addUserRequest, donorcount_map.size() > 0);
+            logger.info(Common.EXECUTING_SQL + sql);
             sqlRenderer.runInsertQuery(sql);
             addUserResponse.setStatus(Common.ADDED_USER_SUCCESFULLY);
         }
