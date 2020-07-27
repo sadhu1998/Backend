@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -30,6 +31,7 @@ public class MailOperation extends BaseController {
     ObjectMapper mapper = new ObjectMapper();
     String user = "sadhu1998@gmail.com";
     String password = "23021998";
+
 
     public SendOTPToMailResponse sendOTP(SendOTPToMailRequest sendOTPToMailRequest) throws Exception {
         SendOTPToMailResponse sendOTPToMailResponse = new SendOTPToMailResponse();

@@ -18,19 +18,6 @@ public class UserOperation extends BaseController {
     protected static final Logger logger = LogManager.getLogger(UserOperation.class);
     UserQueries userQueries = new UserQueries();
 
-    public boolean userExists(String mailid) throws Exception {
-        String sql = userQueries.userExistsSql(mailid);
-        logger.info(Common.EXECUTING_SQL + sql);
-        List<Map<String, Object>> count_map = sqlRenderer.runSelectQuery(sql);
-        if (count_map.size() > 0) {
-            logger.info(Common.USER_EXISTS + true);
-            return true;
-        } else {
-            logger.info(Common.USER_EXISTS + false);
-            return false;
-        }
-    }
-
     public boolean finishedOtpValidation(String mailid) throws Exception {
         String sql = userQueries.finishedOTPValidationSql(mailid);
         logger.info(Common.EXECUTING_SQL + sql);

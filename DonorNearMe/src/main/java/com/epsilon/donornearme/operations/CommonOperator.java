@@ -29,6 +29,8 @@ public class CommonOperator {
         }
     }
 
+
+
     public boolean correctPasswordEntered(AuthenticationRequest authenticationRequest) throws Exception {
         String sql = commonQueries.correctPasswordEnteredSql(authenticationRequest);
         logger.info(Common.EXECUTING_SQL + sql);

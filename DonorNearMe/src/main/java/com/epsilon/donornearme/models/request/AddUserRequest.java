@@ -15,6 +15,15 @@ public class AddUserRequest {
     String pincode;
     String mail_notification;
     String sms_notification;
+    String fcmtoken;
+
+    public String getFcmtoken() {
+        return fcmtoken;
+    }
+
+    public void setFcmtoken(String fcmtoken) {
+        this.fcmtoken = fcmtoken;
+    }
 
     public String getUsername() {
         return username;

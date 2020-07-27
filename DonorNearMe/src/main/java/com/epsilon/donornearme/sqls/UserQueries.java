@@ -16,7 +16,7 @@ public class UserQueries {
     }
 
     public String addUserToDbCredssSql(AddUserRequest addUserRequest) {
-        return  "insert into users.creds(username,password,mailid) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPassword() + "','" + addUserRequest.getMailid() + "');";
+        return  "insert into users.creds(username,password,mailid,fcmtoken) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPassword() + "','" + addUserRequest.getMailid() + "','"+ addUserRequest.getFcmtoken() +"');";
     }
 
     public String addUserToDbAlertsSql(AddUserRequest addUserRequest) {
