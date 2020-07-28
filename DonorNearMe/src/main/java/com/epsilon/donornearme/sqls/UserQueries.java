@@ -74,4 +74,8 @@ public class UserQueries {
     public String getReviewStatusSql(ReviewSubmittedStatusRequest reviewSubmittedStatusRequest) {
         return "select case when (select count(mailid) from users.reviews where mailid= '"+reviewSubmittedStatusRequest.getMailid()+"')>0 then 'true' else 'false' end as status";
     }
+
+    public String getBloodRequestDetails(GetBloodNeedRequest getBloodNeedRequest) {
+        return "select receipent_id,message from users.blood_requests where donor_id in ('"+getBloodNeedRequest.getMailid()+"')";
+    }
 }

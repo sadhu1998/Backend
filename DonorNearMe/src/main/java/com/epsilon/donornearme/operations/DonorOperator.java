@@ -4,9 +4,11 @@ import com.epsilon.donornearme.Common;
 import com.epsilon.donornearme.models.request.GetAllDonorsCountRequest;
 import com.epsilon.donornearme.models.request.GetBloodGroupsRequest;
 import com.epsilon.donornearme.models.request.GetDonorsAvailableRequest;
+import com.epsilon.donornearme.models.request.UserDonorLogRequest;
 import com.epsilon.donornearme.models.response.GetAllDonorsCountResponse;
 import com.epsilon.donornearme.models.response.GetBloodGroupsResponse;
 import com.epsilon.donornearme.models.response.GetDonorsAvailableResponse;
+import com.epsilon.donornearme.models.response.UserDonorLogResponse;
 import com.epsilon.donornearme.sqls.DonorQueries;
 
 import java.util.List;
@@ -41,4 +43,15 @@ public class DonorOperator extends CommonOperator {
         return getBloodGroupsResponse;
     }
 
+
+    public UserDonorLogResponse insertIntoRequestsLog(UserDonorLogRequest userDonorLogRequest) {
+        UserDonorLogResponse userDonorLogResponse = new UserDonorLogResponse();
+        userDonorLogResponse.setReceipentId(userDonorLogRequest.getReceipentId());
+        userDonorLogResponse.setDonorId(userDonorLogRequest.getDonorId());
+        String sql = donorQueries.insertIntoBloodRequestsTable(userDonorLogRequest);
+        logger.info(sql);
+        sqlRenderer.runInsertQuery(sql);
+        userDonorLogResponse.setStatus("Request Succesfull");
+        return userDonorLogResponse;
+    }
 }

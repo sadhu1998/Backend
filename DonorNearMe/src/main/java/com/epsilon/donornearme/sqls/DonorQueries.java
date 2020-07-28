@@ -2,6 +2,7 @@ package com.epsilon.donornearme.sqls;
 
 import com.epsilon.donornearme.models.request.GetBloodGroupsRequest;
 import com.epsilon.donornearme.models.request.GetDonorsAvailableRequest;
+import com.epsilon.donornearme.models.request.UserDonorLogRequest;
 
 public class DonorQueries {
 
@@ -16,5 +17,9 @@ public class DonorQueries {
 
     public String getBloodGroupsListSql(GetBloodGroupsRequest getBloodGroupsRequest) {
         return "select blood_group from users.blood_groups order by blood_group;";
+    }
+
+    public String insertIntoBloodRequestsTable(UserDonorLogRequest userDonorLogRequest) {
+        return "insert into users.blood_requests (donor_id ,receipent_id ,requested_ts ,donated,message ) values ('"+userDonorLogRequest.getReceipentId()+"','"+userDonorLogRequest.getDonorId()+"',now(),false,'"+userDonorLogRequest.getMessage()+"');";
     }
 }

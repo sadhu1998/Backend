@@ -100,6 +100,13 @@ public class UserController extends BaseController {
         return userOperation.getReviewStatus(reviewSubmittedStatusRequest);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getbloodrequests")
+    public GetBloodNeedResponse getBloodRequests(GetBloodNeedRequest getBloodNeedRequest) throws Exception {
+        return userOperation.getRequestList(getBloodNeedRequest);
+    }
+
+
+
 
 
 }

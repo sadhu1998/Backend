@@ -232,4 +232,14 @@ public class UserOperation extends BaseController {
         reviewSubmittedStatusResponse.setStatus((String) statusMap.get(0).get("status"));
         return reviewSubmittedStatusResponse;
     }
+
+    public GetBloodNeedResponse getRequestList(GetBloodNeedRequest getBloodNeedRequest) {
+        GetBloodNeedResponse getBloodNeedResponse = new GetBloodNeedResponse();
+        getBloodNeedResponse.setMailid(getBloodNeedRequest.getMailid());
+        String sql = userQueries.getBloodRequestDetails(getBloodNeedRequest);
+        List<Map<String,Object>> requestsMap = sqlRenderer.runSelectQuery(sql);
+        getBloodNeedResponse.setRequestsList(requestsMap);
+        getBloodNeedResponse.setStatus("Success");
+        return getBloodNeedResponse;
+    }
 }

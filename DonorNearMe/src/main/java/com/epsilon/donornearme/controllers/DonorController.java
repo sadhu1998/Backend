@@ -1,13 +1,7 @@
 package com.epsilon.donornearme.controllers;
 
-import com.epsilon.donornearme.models.request.GetAllDonorsCountRequest;
-import com.epsilon.donornearme.models.request.GetBloodGroupsRequest;
-import com.epsilon.donornearme.models.request.GetDonorsAvailableRequest;
-import com.epsilon.donornearme.models.request.SendMailToDonorRequest;
-import com.epsilon.donornearme.models.response.GetAllDonorsCountResponse;
-import com.epsilon.donornearme.models.response.GetBloodGroupsResponse;
-import com.epsilon.donornearme.models.response.GetDonorsAvailableResponse;
-import com.epsilon.donornearme.models.response.SendMailToDonorResponse;
+import com.epsilon.donornearme.models.request.*;
+import com.epsilon.donornearme.models.response.*;
 import com.epsilon.donornearme.operations.DonorOperator;
 import com.epsilon.donornearme.operations.MailOperation;
 import com.epsilon.donornearme.operations.UserOperation;
@@ -45,6 +39,11 @@ public class DonorController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/getlist/bloodgroups")
     public GetBloodGroupsResponse getBloodGroupsList(GetBloodGroupsRequest getBloodGroupsRequest) throws Exception {
         return donorOperation.getAllBloodGroupsList(getBloodGroupsRequest);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/donorrequest")
+    public UserDonorLogResponse insertRequestLog(@RequestBody UserDonorLogRequest userDonorLogRequest){
+        return donorOperation.insertIntoRequestsLog(userDonorLogRequest);
     }
 
 
