@@ -76,6 +76,6 @@ public class UserQueries {
     }
 
     public String getBloodRequestDetails(GetBloodNeedRequest getBloodNeedRequest) {
-        return "select receipent_id,message from users.blood_requests where donor_id in ('"+getBloodNeedRequest.getMailid()+"')";
+        return "select donor_id,receipent_id,message,d.phonenumber,d.username from users.blood_requests br left join users.details d on d.mailid = br.receipent_id where br.donor_id in ('"+getBloodNeedRequest.getMailid()+"')";
     }
 }
