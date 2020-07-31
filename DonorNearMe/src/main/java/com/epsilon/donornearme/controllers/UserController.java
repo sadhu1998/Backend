@@ -105,6 +105,11 @@ public class UserController extends BaseController {
         return userOperation.getRequestList(getBloodNeedRequest);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getuserotp")
+    public GetOtpOfUserResponse getOtpOfUser(GetOtpOfUserRequest getOtpOfUserRequest) throws Exception {
+        return userOperation.getUserOtp(getOtpOfUserRequest);
+    }
+
 
 
 

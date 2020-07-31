@@ -19,8 +19,8 @@ public class Common {
     public static final String DB_PASSWORD = "admin";
 
 //    Swagger
-    public static final String DONORNEARME_SPRING_BOOT_API = "Donornearme Spring Boot API";
-    public static final String SWAGGER_VERSION = "2.0";
+    public static final String DONORNEARME_SPRING_BOOT_API = "DonorNearMe Spring Boot API";
+    public static final String SWAGGER_VERSION = "3.0";
     public static final String COPYRIGHT = "(C) Copyright Donor Near Me";
     public static final String DESCRIPTION = "List of all endpoints used in API";
     public static final String PATH_MAPPING = "/";

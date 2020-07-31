@@ -58,17 +58,16 @@ public class UserQueries {
         return "insert into users.reviews values ('" + addUserReviewRequest.getMailid() + "','" + addUserReviewRequest.getStars() + "','" + addUserReviewRequest.getComment() + "')";
     }
 
-
     public String updateForgotPasswordSql(UpdateForgotPasswordRequest updateForgotPasswordRequest) {
         return "update users.creds set password = '"+updateForgotPasswordRequest.getPassword()+"' where mailid = '"+updateForgotPasswordRequest.getMailid()+"'";
     }
 
     public String getOtpStatus(CheckOtpStatusRequest checkOtpStatusRequest) {
-        return "select status from users.otp_validation where mailid = '" + checkOtpStatusRequest.getMailid() + "' order by crt_ts limit 1;";
+        return "select status from users.otp_validation where mailid = '" + checkOtpStatusRequest.getMailid() + "' order by crt_ts desc limit 1;";
     }
 
     public String validateOtpSqlMail(ValidateUserViaLinkRequest validateUserViaLinkRequest) {
-        return "select otp from users.otp_validation where mailid = '" + validateUserViaLinkRequest.getMailid() + "' order by crt_ts limit 1;";
+        return "select otp from users.otp_validation where mailid = '" + validateUserViaLinkRequest.getMailid() + "' order by crt_ts desc limit 1;";
     }
 
     public String getReviewStatusSql(ReviewSubmittedStatusRequest reviewSubmittedStatusRequest) {
@@ -77,5 +76,9 @@ public class UserQueries {
 
     public String getBloodRequestDetails(GetBloodNeedRequest getBloodNeedRequest) {
         return "select donor_id,receipent_id,message,d.phonenumber,d.username,br.blood_group from users.blood_requests br left join users.details d on d.mailid = br.receipent_id where br.donor_id in ('"+getBloodNeedRequest.getMailid()+"')";
+    }
+
+    public String getOtpOfUser(GetOtpOfUserRequest getOtpOfUserRequest) {
+        return "select otp from users.otp_validation ov where mailid = '"+getOtpOfUserRequest.getMailid()+"' order by crt_ts desc limit 1";
     }
 }

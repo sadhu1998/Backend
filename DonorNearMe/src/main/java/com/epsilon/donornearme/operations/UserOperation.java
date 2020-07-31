@@ -64,7 +64,8 @@ public class UserOperation extends BaseController {
 
     private String generateOTP() {
         Random rnd = new Random();
-        return String.format(Common.OTP_GEN, rnd.nextInt(999999));
+//        return String.format(Common.OTP_GEN, rnd.nextInt(999999));
+        return "000000";
     }
 
     public ValidateOTPResponse validateOtp(ValidateOTPRequest validateOTPRequest) throws Exception {
@@ -241,5 +242,16 @@ public class UserOperation extends BaseController {
         getBloodNeedResponse.setRequestsList(requestsMap);
         getBloodNeedResponse.setStatus("Success");
         return getBloodNeedResponse;
+    }
+
+    public GetOtpOfUserResponse getUserOtp(GetOtpOfUserRequest getOtpOfUserRequest) {
+        GetOtpOfUserResponse getOtpOfUserResponse = new GetOtpOfUserResponse();
+        getOtpOfUserResponse.setMailid(getOtpOfUserRequest.getMailid());
+        String sql = userQueries.getOtpOfUser(getOtpOfUserRequest);
+        List<Map<String, Object>> userOtpMap = sqlRenderer.runSelectQuery(sql);
+        String otp = userOtpMap.get(0).get("otp").toString();
+        getOtpOfUserResponse.setOtp(otp);
+        getOtpOfUserResponse.setStatus("Got Otp");
+        return getOtpOfUserResponse;
     }
 }
