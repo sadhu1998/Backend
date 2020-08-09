@@ -9,7 +9,7 @@ import com.epsilon.donornearme.models.response.GetAllDonorsCountResponse;
 import com.epsilon.donornearme.models.response.GetBloodGroupsResponse;
 import com.epsilon.donornearme.models.response.GetDonorsAvailableResponse;
 import com.epsilon.donornearme.models.response.UserDonorLogResponse;
-import com.epsilon.donornearme.sqls.DonorQueries;
+import com.epsilon.donornearme.dao.DonorQueries;
 
 import java.util.List;
 import java.util.Map;

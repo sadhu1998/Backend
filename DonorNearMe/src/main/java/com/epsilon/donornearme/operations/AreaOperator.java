@@ -1,7 +1,7 @@
 package com.epsilon.donornearme.operations;
 
 import com.epsilon.donornearme.Common;
-import com.epsilon.donornearme.sqls.AreaQueries;
+import com.epsilon.donornearme.dao.AreaQueries;
 import com.epsilon.donornearme.utilities.SqlRendererUtility;
 import com.epsilon.donornearme.models.request.*;
 import com.epsilon.donornearme.models.response.*;
@@ -62,5 +62,15 @@ public class AreaOperator {
     }
 
 
+    public GetPincodeResponse getAreaPincode(GetPincodeRequest getPincodeRequest) {
+        GetPincodeResponse getPincodeResponse = new GetPincodeResponse();
+        String sql = areaQueries.getPincodeOfArea(getPincodeRequest);
+        logger.info(Common.EXECUTING_SQL +sql);
+        List<Map<String, Object>> pincode_map = sqlRenderer.runSelectQuery(sql);
+        String pincode = (String) pincode_map.get(0).get("pincode");
+        getPincodeResponse.setPincode(pincode);
+        getPincodeResponse.setStatus("Success");
+        return getPincodeResponse;
+    }
 }
 

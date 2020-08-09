@@ -19,32 +19,38 @@ public class AreasController extends BaseController {
 
 
     @ApiOperation(value = "Get Countries List")
-    @RequestMapping(method = RequestMethod.GET, value = "/getlist/countries")
+    @RequestMapping(method = RequestMethod.GET, value = "/areas/list/countries")
     public GetCountriesListResponse getListOfCountries(GetCountriesListRequest getCountriesListRequest) throws Exception {
         return areaOperator.getCountriesList(getCountriesListRequest);
     }
 
     @ApiOperation(value = "Get States List")
-    @RequestMapping(method = RequestMethod.GET, value = "/getlist/states")
+    @RequestMapping(method = RequestMethod.GET, value = "/areas/list/states")
     public GetStatesListResponse getListOfStates(GetStatesListRequest getStatesListRequest) throws Exception {
         return areaOperator.getStatesList(getStatesListRequest);
     }
 
     @ApiOperation(value = "Get Districts List")
-    @RequestMapping(method = RequestMethod.GET, value = "/getlist/districts")
+    @RequestMapping(method = RequestMethod.GET, value = "/areas/list/districts")
     public GetDistrictsListResponse getListOfDistricts(GetDistrictsListRequest getDistrictsListRequest) throws Exception {
         return areaOperator.getDistrictsList(getDistrictsListRequest);
     }
 
     @ApiOperation(value = "Get Cities List")
-    @RequestMapping(method = RequestMethod.GET, value = "/getlist/cities")
+    @RequestMapping(method = RequestMethod.GET, value = "/areas/list/cities")
     public GetCitiesListResponse getListOfCities(GetCitiesListRequest getCitiesListRequest) throws Exception {
         return areaOperator.getCitiesList(getCitiesListRequest);
     }
 
     @ApiOperation(value = "Get Towns List")
-    @RequestMapping(method = RequestMethod.GET, value = "/getlist/towns")
+    @RequestMapping(method = RequestMethod.GET, value = "/areas/list/towns")
     public GetTownsListResponse getListOfTowns(GetTownsListRequest getTownsListRequest) throws Exception {
         return areaOperator.getTownsList(getTownsListRequest);
+    }
+
+    @ApiOperation(value = "Get States List")
+    @RequestMapping(method = RequestMethod.GET, value = "/areas/pincode")
+    public GetPincodeResponse getPincodeOfArea(GetPincodeRequest getPincodeRequest) throws Exception {
+        return areaOperator.getAreaPincode(getPincodeRequest);
     }
 }

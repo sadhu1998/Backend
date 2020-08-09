@@ -1,7 +1,7 @@
 package com.epsilon.donornearme.operations;
 
 import com.epsilon.donornearme.Common;
-import com.epsilon.donornearme.sqls.CommonQueries;
+import com.epsilon.donornearme.dao.CommonQueries;
 import com.epsilon.donornearme.utilities.SqlRendererUtility;
 import com.epsilon.donornearme.models.request.AuthenticationRequest;
 import org.apache.logging.log4j.LogManager;

@@ -36,7 +36,7 @@ public class DonorController extends BaseController {
         return donorOperation.getAllDonorsCount(getAllDonorsCountRequest);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getlist/bloodgroups")
+    @RequestMapping(method = RequestMethod.GET, value = "/list/bloodgroups")
     public GetBloodGroupsResponse getBloodGroupsList(GetBloodGroupsRequest getBloodGroupsRequest) throws Exception {
         return donorOperation.getAllBloodGroupsList(getBloodGroupsRequest);
     }

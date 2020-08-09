@@ -1,4 +1,4 @@
-package com.epsilon.donornearme.sqls;
+package com.epsilon.donornearme.dao;
 
 import com.epsilon.donornearme.models.request.GetBloodGroupsRequest;
 import com.epsilon.donornearme.models.request.GetDonorsAvailableRequest;

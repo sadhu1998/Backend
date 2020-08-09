@@ -2,7 +2,7 @@ package com.epsilon.donornearme.operations;
 
 import com.epsilon.donornearme.Common;
 import com.epsilon.donornearme.controllers.BaseController;
-import com.epsilon.donornearme.sqls.UserQueries;
+import com.epsilon.donornearme.dao.UserQueries;
 import com.epsilon.donornearme.models.request.*;
 import com.epsilon.donornearme.models.response.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -64,7 +64,8 @@ public class UserOperation extends BaseController {
 
     private String generateOTP() {
         Random rnd = new Random();
-//        return String.format(Common.OTP_GEN, rnd.nextInt(999999));
+
+        //        return String.format(Common.OTP_GEN, rnd.nextInt(999999));
         return "000000";
     }
 
