@@ -47,11 +47,12 @@ public class UserQueries {
     }
 
     public String updateUserSql(UpdateUserRequest updateUserRequest) {
-        return "update users.details set username = " + updateUserRequest.getUsername() + ",phonenumber = " + updateUserRequest.getPhonenumber() + ",bloodgroup = " + updateUserRequest.getBloodgroup() + ",town = " + updateUserRequest.getTown() + ",district = " + updateUserRequest.getDistrict() + ",city= " + updateUserRequest.getCity() + ",state= " + updateUserRequest.getState() + ",country = " + updateUserRequest.getCountry() + ",mailid = " + updateUserRequest.getMailid() + ",pincode = " + updateUserRequest.getPincode() + "";
+        return "update users.details set username = '" + updateUserRequest.getUsername() + "',phonenumber = '" + updateUserRequest.getPhonenumber() + "',bloodgroup = '" + updateUserRequest.getBloodgroup() + "',town = '" + updateUserRequest.getTown() + "',district = '" + updateUserRequest.getDistrict() + "',city= '" + updateUserRequest.getCity() + "',state= '" + updateUserRequest.getState() + "',country = '" + updateUserRequest.getCountry() + "',mailid = '" + updateUserRequest.getMailid() + "',pincode = '" + updateUserRequest.getPincode() + "' where mailid in ('"+updateUserRequest.getMailid()+"');" +
+                "update users.creds set mailid = '"+updateUserRequest.getMailid()+"', username = '"+updateUserRequest.getUsername()+"' , password = '"+updateUserRequest.getPassword()+"' where mailid in ('"+updateUserRequest.getMailid()+"');";
     }
 
     public String getUserDetails(GetUserDetailsRequest getUserDetailsRequest) {
-        return "select username,phonenumber,bloodgroup,town,district,city,state,country,d.mailid,pincode,verification_status,mail_notification,sms_notification from users.details d left join users.alerts a on d.mailid = a.mailid where d.mailid =  '" + getUserDetailsRequest.getMailid() + "'";
+        return "select d.username,password,phonenumber,bloodgroup,town,district,city,state,country,d.mailid,pincode,verification_status,mail_notification,sms_notification from users.details d left join users.alerts a on d.mailid = a.mailid left join users.creds c on c.mailid = d.mailid where d.mailid =  '"+getUserDetailsRequest.getMailid()+"'";
     }
 
     public String addReviewSql(AddUserReviewRequest addUserReviewRequest) {

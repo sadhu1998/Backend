@@ -4,7 +4,7 @@ import com.epsilon.donornearme.models.request.*;
 import com.epsilon.donornearme.models.response.*;
 import com.epsilon.donornearme.operations.DonorOperator;
 import com.epsilon.donornearme.operations.MailOperation;
-import com.epsilon.donornearme.operations.UserOperation;
+import com.epsilon.donornearme.operations.UserOperator;
 import io.swagger.annotations.Api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "Donor fetcher", description = "API's for donors")
 public class DonorController extends BaseController {
     private static final Logger logger = LogManager.getLogger(UserController.class);
-    private final UserOperation userUtility = new UserOperation();
+    private final UserOperator userUtility = new UserOperator();
     DonorOperator donorOperation = new DonorOperator();
     MailOperation mailOperation = new MailOperation();
 

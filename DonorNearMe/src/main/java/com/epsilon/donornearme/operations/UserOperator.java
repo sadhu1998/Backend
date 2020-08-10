@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class UserOperation extends BaseController {
-    protected static final Logger logger = LogManager.getLogger(UserOperation.class);
+public class UserOperator extends BaseController {
+    protected static final Logger logger = LogManager.getLogger(UserOperator.class);
     UserQueries userQueries = new UserQueries();
 
     public boolean finishedOtpValidation(String mailid) throws Exception {
@@ -33,7 +33,7 @@ public class UserOperation extends BaseController {
 
     public AddUserResponse addUserToDb(AddUserRequest addUserRequest) throws Exception {
         AddUserResponse addUserResponse = new AddUserResponse();
-        UserOperation userUtility = new UserOperation();
+        UserOperator userUtility = new UserOperator();
          if (!userUtility.finishedOtpValidation(addUserRequest.getMailid())) {
             addUserResponse.setError(Common.VERIFY_OTP_FIRST);
         } else {
@@ -112,11 +112,18 @@ public class UserOperation extends BaseController {
     public UpdateUserResponse updataUser(String mailid, UpdateUserRequest updateUserRequest) throws Exception {
         UpdateUserResponse updateUserResponse = new UpdateUserResponse();
         updateUserResponse.setMailid(updateUserRequest.getMailid());
-        String sql = userQueries.updateUserSql(updateUserRequest);
-        logger.info(Common.EXECUTING_SQL + sql);
-        sqlRenderer.runInsertQuery(sql);
-        updateUserResponse.setStatus(Common.UPDATED_SUCCESFULLY);
-        return updateUserResponse;
+        if(mailid.equals(updateUserRequest.getMailid())) {
+
+            String sql = userQueries.updateUserSql(updateUserRequest);
+            logger.info(Common.EXECUTING_SQL + sql);
+            sqlRenderer.runInsertQuery(sql);
+            updateUserResponse.setStatus(Common.UPDATED_SUCCESFULLY);
+            return updateUserResponse;
+        }
+        else{
+            updateUserResponse.setError("UnAuthorized");
+            return updateUserResponse;
+        }
     }
 
 //    private Boolean validatePincode(HashMap<String, Object> user_map) throws Exception {

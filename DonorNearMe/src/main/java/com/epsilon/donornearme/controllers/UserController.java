@@ -1,7 +1,7 @@
 package com.epsilon.donornearme.controllers;
 
 import com.epsilon.donornearme.operations.MailOperation;
-import com.epsilon.donornearme.operations.UserOperation;
+import com.epsilon.donornearme.operations.UserOperator;
 import com.epsilon.donornearme.models.request.*;
 import com.epsilon.donornearme.models.response.*;
 import io.swagger.annotations.Api;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "users", description = "API's for controlling user")
 public class UserController extends BaseController {
     private static final Logger logger = LogManager.getLogger(UserController.class);
-    private final UserOperation userOperation = new UserOperation();
+    private final UserOperator userOperator = new UserOperator();
     private final MailOperation mailOperation = new MailOperation();
 
     @RequestMapping(method = RequestMethod.POST, value = "/addUser")
     public AddUserResponse addUser(@RequestBody AddUserRequest addUserRequest) throws Exception {
-        return userOperation.addUserToDb(addUserRequest);
+        return userOperator.addUserToDb(addUserRequest);
     }
 
     @ApiOperation(value = "Send OTP")
@@ -30,47 +30,47 @@ public class UserController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/validateotp")
     public ValidateOTPResponse validateOtp(@RequestBody ValidateOTPRequest validateOTPRequest) throws Exception {
-        return userOperation.validateOtp(validateOTPRequest);
+        return userOperator.validateOtp(validateOTPRequest);
     }
 
     @PutMapping("/updateUser")
     public UpdateUserResponse updateUser(String mailid, @RequestBody UpdateUserRequest updateUserRequest) throws Exception {
-        return userOperation.updataUser(mailid, updateUserRequest);
+        return userOperator.updataUser(mailid, updateUserRequest);
     }
 
     @DeleteMapping("/deleteUser")
     public DeleteUserResponse deleteUser(DeleteUserRequest deleteUserRequest) throws Exception {
-        return userOperation.deleteUser(deleteUserRequest);
+        return userOperator.deleteUser(deleteUserRequest);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addreview")
     public AddUserReviewResponse addReviews(@RequestBody AddUserReviewRequest addUserReviewRequest) throws Exception {
-        return userOperation.addUserReview(addUserReviewRequest);
+        return userOperator.addUserReview(addUserReviewRequest);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/forgotpassword")
     public ForgotPasswordResponse forgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws Exception {
-        return userOperation.forgotPassword(forgotPasswordRequest);
+        return userOperator.forgotPassword(forgotPasswordRequest);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/updatepassword")
     public UpdateForgotPasswordResponse updateForgottenPassword(@RequestBody UpdateForgotPasswordRequest updateForgotPasswordRequest) {
-        return userOperation.updateforgotPassword(updateForgotPasswordRequest);
+        return userOperator.updateforgotPassword(updateForgotPasswordRequest);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/contactus")
     public ContactUsResponse contactUs(@RequestBody ContactUsRequest contactUsRequest) throws Exception {
-        return userOperation.contactUsViaMail(contactUsRequest);
+        return userOperator.contactUsViaMail(contactUsRequest);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/validatemailvialink")
     public ValidateUserViaLinkResponse validateMailViaLink(ValidateUserViaLinkRequest validateUserViaLinkRequest) throws Exception {
-        return userOperation.validateOtpViaEmail(validateUserViaLinkRequest);
+        return userOperator.validateOtpViaEmail(validateUserViaLinkRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/checkotpstatus")
     public CheckOtpStatusResponse validateMailViaLink(CheckOtpStatusRequest checkOtpStatusRequest) throws Exception {
-        return userOperation.checkOtpStatus(checkOtpStatusRequest);
+        return userOperator.checkOtpStatus(checkOtpStatusRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/test")
@@ -87,27 +87,27 @@ public class UserController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET, value = "getdetails/user")
     public GetUserDetailsResponse getUserDetails(GetUserDetailsRequest getUserDetailsRequest) throws Exception {
-        return userOperation.getUserDetails(getUserDetailsRequest);
+        return userOperator.getUserDetails(getUserDetailsRequest);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/userquery")
     public UserQueryResponse userQuery(@RequestBody UserQueryRequest userQueryRequest) throws Exception {
-        return userOperation.userQuery(userQueryRequest);
+        return userOperator.userQuery(userQueryRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/reviewsubmitstatus")
     public ReviewSubmittedStatusResponse getReviewStatus(ReviewSubmittedStatusRequest reviewSubmittedStatusRequest) throws Exception {
-        return userOperation.getReviewStatus(reviewSubmittedStatusRequest);
+        return userOperator.getReviewStatus(reviewSubmittedStatusRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getbloodrequests")
     public GetBloodNeedResponse getBloodRequests(GetBloodNeedRequest getBloodNeedRequest) throws Exception {
-        return userOperation.getRequestList(getBloodNeedRequest);
+        return userOperator.getRequestList(getBloodNeedRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getuserotp")
     public GetOtpOfUserResponse getOtpOfUser(GetOtpOfUserRequest getOtpOfUserRequest) throws Exception {
-        return userOperation.getUserOtp(getOtpOfUserRequest);
+        return userOperator.getUserOtp(getOtpOfUserRequest);
     }
 
 
