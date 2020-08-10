@@ -51,7 +51,7 @@ public class UserQueries {
     }
 
     public String getUserDetails(GetUserDetailsRequest getUserDetailsRequest) {
-        return "select * from users.details d where mailid = '" + getUserDetailsRequest.getMailid() + "'";
+        return "select username,phonenumber,bloodgroup,town,district,city,state,country,d.mailid,pincode,verification_status,mail_notification,sms_notification from users.details d left join users.alerts a on d.mailid = a.mailid where d.mailid =  '" + getUserDetailsRequest.getMailid() + "'";
     }
 
     public String addReviewSql(AddUserReviewRequest addUserReviewRequest) {
