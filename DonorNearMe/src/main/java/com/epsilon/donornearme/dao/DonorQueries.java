@@ -20,6 +20,6 @@ public class DonorQueries {
     }
 
     public String insertIntoBloodRequestsTable(UserDonorLogRequest userDonorLogRequest) {
-        return "insert into users.blood_requests (donor_id ,receipent_id ,requested_ts ,donated,message,blood_group ) values ('"+userDonorLogRequest.getDonorId()+"','"+userDonorLogRequest.getDonorId()+"',now(),false,'"+userDonorLogRequest.getMessage()+"',(select bloodgroup from users.details where mailid in ('"+userDonorLogRequest.getDonorId()+"')));";
+        return "insert into users.blood_requests (donor_id ,receipent_id ,requested_ts ,donated,message,blood_group ) values ('"+userDonorLogRequest.getDonorId()+"','"+userDonorLogRequest.getReceipentId()+"',now(),false,'"+userDonorLogRequest.getMessage()+"',(select bloodgroup from users.details where mailid in ('"+userDonorLogRequest.getDonorId()+"')));";
     }
 }
