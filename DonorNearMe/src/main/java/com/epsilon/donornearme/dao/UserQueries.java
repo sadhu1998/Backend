@@ -12,7 +12,7 @@ public class UserQueries {
     }
 
     public String addUserToDbDetailsSql(AddUserRequest addUserRequest) {
-        return "insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid ,  pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getState() + "','" + addUserRequest.getMailid() + "','" + addUserRequest.getPincode() + "');";
+        return "insert into users.details(username , phonenumber , bloodgroup , town , district , city , state , country , mailid ,  pincode) values" + "('" + addUserRequest.getUsername() + "','" + addUserRequest.getPhonenumber() + "','" + addUserRequest.getBloodgroup() + "','" + addUserRequest.getTown() + "','" + addUserRequest.getDistrict() + "','" + addUserRequest.getCity() + "','" + addUserRequest.getState() + "','" + addUserRequest.getCountry() + "','" + addUserRequest.getMailid() + "','" + addUserRequest.getPincode() + "');";
     }
 
     public String addUserToDbCredssSql(AddUserRequest addUserRequest) {
@@ -81,5 +81,9 @@ public class UserQueries {
 
     public String getOtpOfUser(GetOtpOfUserRequest getOtpOfUserRequest) {
         return "select otp from users.otp_validation ov where mailid = '"+getOtpOfUserRequest.getMailid()+"' order by crt_ts desc limit 1";
+    }
+
+    public String updateFcmQuery(UpdateFcmTokenRequest updateFcmTokenRequest) {
+        return "update users.creds set fcmtoken = '"+updateFcmTokenRequest.getFcmToken()+"' where mailid in ('"+updateFcmTokenRequest.getMailid()+"');";
     }
 }

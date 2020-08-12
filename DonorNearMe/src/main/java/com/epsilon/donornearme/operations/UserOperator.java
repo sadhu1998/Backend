@@ -262,4 +262,13 @@ public class UserOperator extends BaseController {
         getOtpOfUserResponse.setStatus("Got Otp");
         return getOtpOfUserResponse;
     }
+
+    public UpdateFcmTokenResponse updateFcmInDB(UpdateFcmTokenRequest updateFcmTokenRequest) {
+        UpdateFcmTokenResponse updateFcmTokenResponse = new UpdateFcmTokenResponse();
+        updateFcmTokenResponse.setMailid(updateFcmTokenRequest.getMailid());
+        String sql = userQueries.updateFcmQuery(updateFcmTokenRequest);
+        sqlRenderer.runInsertQuery(sql);
+        updateFcmTokenResponse.setStatus("Success");
+        return updateFcmTokenResponse;
+    }
 }
