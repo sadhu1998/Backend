@@ -36,7 +36,7 @@ public class UserQueries {
     }
 
     public String validateOtpSql(ValidateOTPRequest validateOTPRequest) {
-        return "select otp from users.otp_validation where mailid = '" + validateOTPRequest.getMailid() + "' order by crt_ts limit 1;";
+        return "select otp from users.otp_validation where mailid = '" + validateOTPRequest.getMailid() + "' order by crt_ts desc limit 1;";
     }
 
     public String deleteUserSql(String mailid) {
