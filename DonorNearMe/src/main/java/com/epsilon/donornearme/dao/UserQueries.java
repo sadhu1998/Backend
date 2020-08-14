@@ -86,4 +86,8 @@ public class UserQueries {
     public String updateFcmQuery(UpdateFcmTokenRequest updateFcmTokenRequest) {
         return "update users.creds set fcmtoken = '"+updateFcmTokenRequest.getFcmToken()+"' where mailid in ('"+updateFcmTokenRequest.getMailid()+"');";
     }
+
+    public String getFcmFromDb(GetFcmTokenRequest getFcmTokenRequest) {
+        return "select fcmtoken from users.creds where mailid = '"+getFcmTokenRequest.getMailid()+"'";
+    }
 }

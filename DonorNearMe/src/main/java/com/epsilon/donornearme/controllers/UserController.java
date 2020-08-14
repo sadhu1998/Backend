@@ -115,6 +115,11 @@ public class UserController extends BaseController {
         return userOperator.updateFcmInDB(updateFcmTokenRequest);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/user/fcmtoken")
+    public GetFcmTokenResponse getOtpOfUser(GetFcmTokenRequest getFcmTokenRequest) throws Exception {
+        return userOperator.getUserFcmToken(getFcmTokenRequest);
+    }
+
 
 
 

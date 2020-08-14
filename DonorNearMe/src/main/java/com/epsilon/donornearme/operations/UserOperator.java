@@ -267,8 +267,30 @@ public class UserOperator extends BaseController {
         UpdateFcmTokenResponse updateFcmTokenResponse = new UpdateFcmTokenResponse();
         updateFcmTokenResponse.setMailid(updateFcmTokenRequest.getMailid());
         String sql = userQueries.updateFcmQuery(updateFcmTokenRequest);
+        logger.info(sql);
         sqlRenderer.runInsertQuery(sql);
         updateFcmTokenResponse.setStatus("Success");
         return updateFcmTokenResponse;
+    }
+
+    public GetFcmTokenResponse getUserFcmToken(GetFcmTokenRequest getFcmTokenRequest) {
+        GetFcmTokenResponse getFcmTokenResponse = new GetFcmTokenResponse();
+        getFcmTokenResponse.setMailid(getFcmTokenRequest.getMailid());
+        String sql = userQueries.getFcmFromDb(getFcmTokenRequest);
+        List<Map<String, Object>> fcmMap = sqlRenderer.runSelectQuery(sql);
+        if (fcmMap.size()==0){
+            getFcmTokenResponse.setError("Error Occured");
+            return getFcmTokenResponse;
+        }
+        String fcmToken = fcmMap.get(0).get("fcmtoken").toString();
+        if (fcmToken.equals("")){
+            getFcmTokenResponse.setError("Error Occured");
+        }else{
+            getFcmTokenResponse.setFcmToken(fcmToken);
+            getFcmTokenResponse.setStatus("Success");
+        }
+        return getFcmTokenResponse;
+
+
     }
 }
