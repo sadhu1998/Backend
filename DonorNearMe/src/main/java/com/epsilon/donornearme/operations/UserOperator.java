@@ -290,7 +290,13 @@ public class UserOperator extends BaseController {
             getFcmTokenResponse.setStatus("Success");
         }
         return getFcmTokenResponse;
+    }
 
-
+    public GetGlobalBloodResponse getGlobalRequestList(GetGlobalBloodRequest getGlobalBloodRequest) {
+        GetGlobalBloodResponse getGlobalBloodResponse = new GetGlobalBloodResponse();
+        String sql = userQueries.getGlobalBloodRequestedDetails(getGlobalBloodRequest);
+        List<Map<String,Object>> requestsMap = sqlRenderer.runSelectQuery(sql);
+        getGlobalBloodResponse.setRequestsList(requestsMap);
+        return getGlobalBloodResponse;
     }
 }

@@ -90,4 +90,8 @@ public class UserQueries {
     public String getFcmFromDb(GetFcmTokenRequest getFcmTokenRequest) {
         return "select fcmtoken from users.creds where mailid = '"+getFcmTokenRequest.getMailid()+"'";
     }
+
+    public String getGlobalBloodRequestedDetails(GetGlobalBloodRequest getGlobalBloodRequest) {
+        return "select distinct (receipent_id),message,d.phonenumber,d.username,br.blood_group from users.blood_requests br left join users.details d on d.mailid = br.receipent_id  ";
+    }
 }
