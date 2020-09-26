@@ -1,8 +1,10 @@
 package com.epsilon.donornearme.models.request;
 
+import java.io.File;
+
 public class GetUserDetailsRequest {
     String mailid;
-
+    
     public String getMailid() {
         return mailid;
     }

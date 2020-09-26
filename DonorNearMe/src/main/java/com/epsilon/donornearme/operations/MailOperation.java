@@ -82,7 +82,8 @@ public class MailOperation extends BaseController {
 
     private String generateOTP() {
         Random rnd = new Random();
-        return String.format("%06d", rnd.nextInt(999999));
+//        return String.format("%06d", rnd.nextInt(999999));
+        return "000000";
     }
 
     public SendMailToDonorResponse sendMailToDonor(SendMailToDonorRequest sendMailToDonorRequest) throws JSONException, JsonProcessingException, UnirestException {
