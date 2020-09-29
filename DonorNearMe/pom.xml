@@ -140,7 +140,14 @@
             <artifactId>spring-security-config</artifactId>
             <version>5.2.4.RELEASE</version>
         </dependency>
-    </dependencies>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<plugins>
