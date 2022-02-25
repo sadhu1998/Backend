@@ -60,7 +60,7 @@ function sendMessage(event) {
             content: messageInput.value,
             type: 'CHAT'
         };
-            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
     }
     event.preventDefault();
@@ -69,7 +69,6 @@ function sendMessage(event) {
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
-    print("Message Received: "+message)
 
     var messageElement = document.createElement('li');
 
