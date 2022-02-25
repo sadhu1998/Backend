@@ -23,7 +23,7 @@ function connect(event) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        var socket = new SockJS('/ws');
+        var socket = new SockJS('http://localhost:8080/ws');
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
@@ -34,10 +34,10 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe('http://localhost:8080/topic/public', onMessageReceived);
 
     // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
+    stompClient.send("http://localhost:8080/app/chat.addUser",
         {},
         JSON.stringify({sender: username, type: 'JOIN'})
     )
@@ -60,7 +60,7 @@ function sendMessage(event) {
             content: messageInput.value,
             type: 'CHAT'
         };
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("http://localhost:8080/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
     }
     event.preventDefault();
